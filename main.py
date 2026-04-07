@@ -553,141 +553,35 @@ def open_word(filename):
     if not require_login():
         return redirect(url_for("login"))
 
-    import subprocess
-    import time
-    import win32gui
-    import win32con
-
     user, user_folder = get_user_folder()
-    filepath = os.path.abspath(os.path.join(user_folder, filename))
 
-    try:
-        # Open file with Word
-        subprocess.Popen(['start', '', filepath], shell=True)
-
-        # Wait a bit for Word to launch
-        time.sleep(1.5)
-
-        # Bring Word window to front
-        def enum_handler(hwnd, _):
-            if "Word" in win32gui.GetWindowText(hwnd):
-                win32gui.ShowWindow(hwnd, win32con.SW_MAXIMIZE)
-                win32gui.SetForegroundWindow(hwnd)
-
-        win32gui.EnumWindows(enum_handler, None)
-
-    except Exception as e:
-        print("Error opening Word:", e)
-
-    return redirect(url_for("dashboard"))
+    return send_from_directory(user_folder, filename, as_attachment=False)
 
 @app.route("/open_ppt/<filename>")
 def open_ppt(filename):
-
     if not require_login():
         return redirect(url_for("login"))
 
-    import subprocess
-    import time
-    import win32gui
-    import win32con
-
     user, user_folder = get_user_folder()
-    filepath = os.path.abspath(os.path.join(user_folder, filename))
+    return send_from_directory(user_folder, filename, as_attachment=False)
 
-    try:
-        # Open file with PowerPoint
-        subprocess.Popen(['start', '', filepath], shell=True)
-
-        # Wait for PowerPoint to launch
-        time.sleep(1.5)
-
-        # Bring PowerPoint window to front
-        def enum_handler(hwnd, _):
-            title = win32gui.GetWindowText(hwnd)
-
-            if "PowerPoint" in title:
-                win32gui.ShowWindow(hwnd, win32con.SW_MAXIMIZE)
-                win32gui.SetForegroundWindow(hwnd)
-
-        win32gui.EnumWindows(enum_handler, None)
-
-    except Exception as e:
-        print("Error opening PowerPoint:", e)
-
-    return redirect(url_for("dashboard"))
 
 @app.route("/open_pdf/<filename>")
 def open_pdf(filename):
-
     if not require_login():
         return redirect(url_for("login"))
 
-    import subprocess
-    import time
-    import win32gui
-    import win32con
-
     user, user_folder = get_user_folder()
-    filepath = os.path.abspath(os.path.join(user_folder, filename))
+    return send_from_directory(user_folder, filename, as_attachment=False)
 
-    try:
-        # Open PDF using Microsoft Edge
-        subprocess.Popen(['start', 'msedge', filepath], shell=True)
-
-        # Wait for Edge to launch
-        time.sleep(1.5)
-
-        # Bring Edge window to front
-        def enum_handler(hwnd, _):
-            title = win32gui.GetWindowText(hwnd)
-
-            if "Microsoft Edge" in title:
-                win32gui.ShowWindow(hwnd, win32con.SW_MAXIMIZE)
-                win32gui.SetForegroundWindow(hwnd)
-
-        win32gui.EnumWindows(enum_handler, None)
-
-    except Exception as e:
-        print("Error opening PDF:", e)
-
-    return redirect(url_for("dashboard"))
 
 @app.route("/open_video/<filename>")
 def open_video(filename):
-
     if not require_login():
         return redirect(url_for("login"))
 
-    import subprocess
-    import time
-    import win32gui
-    import win32con
-
     user, user_folder = get_user_folder()
-    filepath = os.path.abspath(os.path.join(user_folder, filename))
-
-    try:
-        # Open video using VLC
-        subprocess.Popen(['start', 'vlc', filepath], shell=True)
-
-        # Wait for VLC to launch
-        time.sleep(1.5)
-
-        # Bring VLC window to front
-        def enum_handler(hwnd, _):
-            title = win32gui.GetWindowText(hwnd)
-
-            if "VLC media player" in title:
-                win32gui.ShowWindow(hwnd, win32con.SW_MAXIMIZE)
-                win32gui.SetForegroundWindow(hwnd)
-
-        win32gui.EnumWindows(enum_handler, None)
-
-    except Exception as e:
-        print("Error opening video:", e)
-
-    return redirect(url_for("dashboard"))
+    return send_from_directory(user_folder, filename, as_attachment=False)
 
 # ================================
 # DASHBOARD
