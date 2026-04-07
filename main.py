@@ -1093,43 +1093,46 @@ def profile():
 
 def send_qr_email(receiver_email, username, password):
 
-    qr_path = os.path.join("static", "qrcodes", f"{username}.png")
+    try:
+        qr_path = os.path.join("static", "qrcodes", f"{username}.png")
 
-    sender_email = "progesture4410@gmail.com"
-    sender_password = "iaihvxuaikizysei"
+        sender_email = os.environ.get("EMAIL_USER")
+        sender_password = os.environ.get("EMAIL_PASS")
 
-    msg = EmailMessage()
-    msg["Subject"] = "Your ProGesture QR Login Code"
-    msg["From"] = sender_email
-    msg["To"] = receiver_email
+        msg = EmailMessage()
+        msg["Subject"] = "Your ProGesture QR Login Code"
+        msg["From"] = sender_email
+        msg["To"] = receiver_email
 
-    msg.set_content(f"""
-    Hello {username},
+        msg.set_content(f"""
+Hello {username},
 
-    Your ProGesture account details:
+Your ProGesture account details:
 
-    Username: {username}
-    Password: {password}
+Username: {username}
+Password: {password}
 
-    You may use the QR code attached OR manually enter your credentials.
+QR code is attached.
 
-    If this was a password reset, please change your password after logging in.
+- ProGesture
+""")
 
-    Regards,
-    ProGesture Team
-    """)
+        with open(qr_path, "rb") as f:
+            msg.add_attachment(
+                f.read(),
+                maintype="image",
+                subtype="png",
+                filename=f"{username}_qr.png"
+            )
 
-    with open(qr_path, "rb") as f:
-        msg.add_attachment(
-            f.read(),
-            maintype="image",
-            subtype="png",
-            filename=f"{username}_qr.png"
-        )
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+            smtp.login(sender_email, sender_password)
+            smtp.send_message(msg)
 
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-        smtp.login(sender_email, sender_password)
-        smtp.send_message(msg)
+        print("✅ Email sent successfully")
+
+    except Exception as e:
+        print("❌ EMAIL ERROR:", e)
 
 def time_ago(timestamp):
     now = datetime.now()
