@@ -1098,6 +1098,9 @@ def send_qr_email(receiver_email, username, password):
 
         sender_email = os.environ.get("EMAIL_USER")
         sender_password = os.environ.get("EMAIL_PASS")
+        
+        print("EMAIL_USER:", sender_email)
+        print("EMAIL_PASS exists:", bool(sender_password))
 
         msg = EmailMessage()
         msg["Subject"] = "Your ProGesture QR Login Code"
