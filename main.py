@@ -545,7 +545,7 @@ def uploaded_file(filename):
         return redirect(url_for("login"))
 
     user, user_folder = get_user_folder()
-    return send_from_directory(user_folder, filename)
+    return send_from_directory(user_folder, filename, as_attachment=True)
 
 @app.route("/open_word/<filename>")
 def open_word(filename):
