@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Features - ProGesture</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --maroon:#800000;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:'Inter', Arial, sans-serif;
+  color:#1c1c1c;
+}
+
+/* ===== BACKGROUND ===== */
+.cyber-pattern{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+
+  background-color:#e9e9e9;
+
+  background-image:
+    radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.12) 100%),
+    linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px),
+    linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+
+  background-size:
+    100% 100%,
+    60px 60px,
+    60px 60px,
+    20px 20px,
+    20px 20px;
+
+  animation:cyber-move 12s linear infinite;
+}
+
+@keyframes cyber-move{
+  100%{
+    background-position:
+      0 0,
+      60px 60px,
+      60px 60px,
+      40px 40px,
+      40px 40px;
+  }
+}
+
+/* ===== TOP BAR ===== */
+.topbar{
+  position:fixed;
+  inset:0 0 auto 0;
+  height:56px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+
+  z-index:1200;
+  pointer-events:none;
+}
+
+.btn-back{
+  pointer-events:auto;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+
+  height:32px;
+  padding:0 14px;
+
+  font-size:12px;
+  font-weight:600;
+
+  border-radius:10px;
+  text-decoration:none;
+
+  color:#fff;
+  background:linear-gradient(135deg, #800000, #a00000);
+  box-shadow:0 4px 12px rgba(128,0,0,0.25);
+
+  transition:.2s ease;
+}
+
+.btn-back:hover{
+  transform:translateY(-1px);
+}
+
+/* ===== CONTENT ===== */
+.wrap{
+  min-height:100vh;
+}
+
+.content{
+  max-width:920px;
+  margin:0 auto;
+  padding:50px 16px 40px;
+  text-align:center;
+}
+
+.main-title{
+  font-size:34px;
+  font-weight:800;
+  color:#800000;
+  margin-bottom:8px;
+}
+
+.subtitle{
+  font-size:14px;
+  color:#888;
+}
+
+
+
+/* ===== FEATURE CAROUSEL ===== */
+.carousel{
+  margin-top:30px;
+  position:relative;
+  overflow:hidden;
+}
+
+.carousel-track{
+  display:flex;
+  transition:transform .4s ease;
+}
+
+.slide{
+  min-width:100%;
+  background:#ffffff;
+  border-radius:12px;
+  padding:40px 80px;
+  display:flex;
+  align-items:center;              /* center vertically */
+  justify-content:center;          /* center whole content */
+  gap:40px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.slide-text{
+  flex:1;
+  text-align:left;
+  font-size:13px;
+  line-height:1.6;
+  max-width:380px;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+}
+
+.feature-title{
+  font-size:28px;
+  font-weight:800;
+  margin-bottom:12px;
+
+  min-height:40px; /* 🔥 keeps all titles aligned */
+}
+
+.slide-img{
+  flex:1;
+  display:flex;
+  justify-content:center;  /* center horizontally */
+  align-items:center;      /* center vertically */
+}
+
+.slide-img img{
+  width:380px;       /* 🔥 fixed width */
+  height:250px;      /* 🔥 fixed height */
+  object-fit:cover;  /* 🔥 keeps images clean & same size */
+  border-radius:10px;
+}
+
+.carousel{
+  margin-top:40px;
+}
+
+.content{
+  max-width:1000px;
+}
+
+.carousel-btn{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:#800000;
+  color:#fff;
+  border:none;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  cursor:pointer;
+  z-index:10;
+  pointer-events:auto;
+}
+.slide-text p{
+  text-indent: 30px;
+  margin-bottom: 14px;
+  text-align: justify;
+}
+.prev{ left: 15px; }
+.next{ right: 15px; }
+
+</style>
+</head>
+
+<body>
+
+<!-- BACK BUTTON -->
+<div class="topbar">
+  <a href="/" class="btn-back">
+    <i class="fa-solid fa-arrow-left"></i>
+    Back to Home
+  </a>
+</div>
+
+<!-- BACKGROUND -->
+<div class="cyber-pattern"></div>
+
+<!-- CONTENT -->
+<div class="wrap">
+  <div class="content">
+
+    <h1 class="main-title">Features</h1>
+    <p class="subtitle">Explore the powerful features of ProGesture</p>
+
+      <div class="carousel">
+
+  <button class="carousel-btn prev" onclick="moveSlide(-1)">❮</button>
+  <button class="carousel-btn next" onclick="moveSlide(1)">❯</button>
+
+  <div class="carousel-track" id="carouselTrack">
+
+    <!-- SLIDE 1 -->
+    <div class="slide">
+      <div class="slide-text">
+        <h2 class="feature-title">User Authentication</h2>
+
+        <p>
+          Ensures secure and controlled access to the system through verified user accounts using a QR code-based login system. Users present a unique QR code to the system camera for verification, enabling fast and seamless authentication while minimizing unauthorized access.
+        </p>
+
+        <p>
+          Once authenticated, users gain access to a personalized interface where they can upload, manage, and retrieve presentation files through the web-based platform. The system securely stores user data and enforces access control to ensure that only authorized individuals can access and present their content.
+        </p>
+      </div>
+      <div class="slide-img">
+        <img src="{{ url_for('static', filename='images/user_authen.png') }}">
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide">
+      <div class="slide-text">
+        <h2 class="feature-title">Gesture Control</h2>
+
+        <p>
+          Enables users to control presentations through intuitive hand movements using vision-based gesture recognition technology. The system utilizes a camera and computer vision frameworks to detect and interpret hand gestures in real time, eliminating the need for physical input devices.
+        </p>
+
+        <p>
+          Predefined gestures are mapped to specific commands such as slide navigation, media control, and zoom functions for seamless interaction. This allows instructors to move freely within the classroom while maintaining full control of their presentation.
+        </p>
+      </div>
+      <div class="slide-img">
+        <img src="{{ url_for('static', filename='images/gesture_con.png') }}">
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide">
+      <div class="slide-text">
+        <h2 class="feature-title">Integrated Operation</h2>
+
+        <p>
+          Combines hardware and software components into a unified system that operates seamlessly without the need for external devices. The projector integrates a mini-PC, camera module, gesture recognition software, and web-based interface to handle all presentation functions internally.
+        </p>
+
+        <p>
+          This allows users to upload, access, and control presentation files directly within the system. By eliminating reliance on laptops, cables, and additional peripherals, it simplifies setup and reduces technical interruptions.
+        </p>
+      </div>
+      <div class="slide-img">
+        <img src="{{ url_for('static', filename='images/integ.png') }}">
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let index = 1;
+
+const track = document.getElementById('carouselTrack');
+let slides = document.querySelectorAll('.slide');
+
+/* 👉 CLONE FIRST & LAST */
+const firstClone = slides[0].cloneNode(true);
+const lastClone = slides[slides.length - 1].cloneNode(true);
+
+track.appendChild(firstClone);
+track.insertBefore(lastClone, slides[0]);
+
+/* 👉 UPDATE SLIDES */
+slides = document.querySelectorAll('.slide');
+
+/* 👉 START AT REAL FIRST SLIDE */
+track.style.transform = `translateX(-100%)`;
+
+function moveSlide(direction){
+  index += direction;
+
+  track.style.transition = "transform 0.4s ease";
+  track.style.transform = `translateX(-${index * 100}%)`;
+
+  /* 👉 WHEN GOING RIGHT (END → FIRST) */
+  if(index === slides.length - 1){
+    setTimeout(() => {
+      track.style.transition = "none";
+      index = 1;
+      track.style.transform = `translateX(-100%)`;
+    }, 400);
+  }
+
+  /* 👉 WHEN GOING LEFT (FIRST → LAST) */
+  if(index === 0){
+    setTimeout(() => {
+      track.style.transition = "none";
+      index = slides.length - 2;
+      track.style.transform = `translateX(-${index * 100}%)`;
+    }, 400);
+  }
+}
+</script>
+
+</div>
+</div>
+</div>
+
+</body>
+</html>

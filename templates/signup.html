@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up - ProGesture</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      height: 100vh;
+      overflow: hidden; /* 🚀 removes scroll */
+
+      background-color: #e9e9e9;
+    }
+
+    .signup {
+      color: #b8ffb8;
+      font-weight: bold;
+      text-shadow: 0 0 3px rgba(0,0,0,0.7);
+    }
+
+    .cyber-pattern{
+      position:fixed;
+      inset:0;
+      z-index:-1;
+
+      background-color:#e9e9e9;
+
+      background-image:
+        radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.12) 100%),
+        linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px),
+        linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+
+      background-size:
+        100% 100%,
+        60px 60px,
+        60px 60px,
+        20px 20px,
+        20px 20px;
+
+      animation:cyber-move 12s linear infinite;
+    }
+
+    @keyframes cyber-move{
+      100%{
+        background-position:
+          0 0,
+          60px 60px,
+          60px 60px,
+          40px 40px,
+          40px 40px;
+      }
+    }
+
+
+    /* invisible container, like login-container */
+    .signup-box {
+      position: relative;
+      z-index: 1;
+
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+
+      border-radius: 0;
+      padding: 0;
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .signup-box h2 {
+      margin-bottom: 16px;
+      color: #800000;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .signup-box form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* solid inputs */
+    .signup-box input {
+      width: 98%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      background: #ffffff;
+      color: #000;
+      text-align: left;
+    }
+
+    .signup-box button {
+      display: block;
+      width: 250px;
+      max-width: 100%;
+      margin: 14px auto 0;
+      padding: 10px;
+      background: #800000;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .signup-box button:hover {
+      background: #a00000;
+    }
+
+    /* ===== TOP BAR ===== */
+    .topbar{
+      position:fixed;
+      inset:0 0 auto 0;
+      height:56px;
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 20px;
+
+      z-index:1200;
+      pointer-events:none;
+    }
+
+    .topbar .btn{
+      pointer-events:auto;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+
+      height:32px;
+      padding:0 14px;
+
+      font-size:12px;
+      font-weight:600;
+
+      border-radius:10px;
+      text-decoration:none;
+
+      transition:.2s ease;
+    }
+
+    /* maroon button */
+    .btn-back{
+      color:#fff;
+      background:linear-gradient(135deg, #800000, #a00000);
+      box-shadow:0 4px 12px rgba(128,0,0,0.25);
+    }
+
+    .btn-back:hover{
+      transform:translateY(-1px);
+    }
+
+.form-container {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column; /* 👈 ADD THIS */
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+}
+
+.form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+
+  width: 100%;
+  max-width: 440px;     /* responsive max width */
+  padding: 10px 30px 10px 30px;
+
+  border-radius: 24px;
+  color: #111111;
+  background: #ffffff;
+  border: 1px solid rgba(128,0,0,0.12);
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.08),
+    0 6px 14px rgba(0,0,0,0.06);
+}
+
+.show-password input[type="checkbox"] {
+  accent-color: #800000; /* maroon */
+  cursor: pointer;
+}
+
+.logo-wrapper {
+  position: absolute;
+  top: -55px;              /* controls how much goes outside */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.logo-wrapper img {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: white;
+}
+
+.title {
+  position: relative;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  padding-left: 0;
+  margin-bottom: 4px;
+  margin-top: 10px;
+  color: #800000;
+}
+
+.message {
+  font-size: 14px;
+  color: #4b5563;
+  margin-top: 4px;
+  margin-bottom: 6px;
+}
+
+.signin {
+  text-align: center;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.signin a {
+  color: #800000;
+  font-weight: 600;
+  text-decoration:none;
+}
+
+.signin a:hover {
+  text-decoration: none;
+}
+
+.show-password {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  margin-top: -4px;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+.show-password input {
+  cursor: pointer;
+}
+
+.password-error {
+  font-size: 13px;
+  color: #cc0000;
+  margin-top: -6px;
+  margin-bottom: 4px;
+  display: none;
+}
+
+.flex {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+}
+
+.flex label {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.form label {
+  position: relative;
+}
+
+.form label .input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px 14px 10px 14px;  /* more top space */
+  font-size: 16px;      /* increase text size */
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #111111;
+  outline: none;
+  transition: 0.25s ease;
+}
+
+.form label .input:focus {
+  border-color: #800000;
+}
+
+.form label .input + span {
+  color: #6b7280;
+  position: absolute;
+  left: 10px;
+  top: 12px;
+  font-size: 13px;
+  transition: 0.3s ease;
+}
+
+.form label .input:focus + span,
+.form label .input:valid + span {
+  color: #800000;
+  top: 4px;
+  font-size: 0.7em;
+  font-weight: 600;
+}
+
+.submit {
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: #800000;
+  cursor: pointer;
+  transition: 0.3s ease;
+  box-shadow: 0 3px 0 #5a0000;
+  margin-top: 4px;
+}
+
+.submit:hover {
+  background-color: #660000;
+}
+
+.submit:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 0 #4a0000;
+}
+
+.back-home {
+  display: block;
+  margin-top: 10px;
+  padding: 10px;
+  background: #800000;
+  color: #fff;
+  border-radius: 10px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.back-home:hover {
+  background: #a00000;
+}
+
+.messages {
+  text-align: center;
+}
+
+.signup {
+  color: #00ff99;
+  font-weight: bold;
+}
+
+@keyframes pulseDot {
+  0% {
+    transform: translateY(-50%) scale(1);
+    opacity: 0.6;
+  }
+  70% {
+    transform: translateY(-50%) scale(2.5);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(-50%) scale(1);
+    opacity: 0;
+  }
+}
+
+.right-side {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 420px;   /* controls form width */
+}
+
+@media (max-width: 768px) {
+  .form {
+    padding: 90px 20px 25px 20px;
+  }
+
+  .flex {
+    grid-template-columns: 1fr;   /* stack first/last name */
+  }
+
+  .right-side {
+    max-width: 100%;
+  }
+}
+
+/* ===== ProGesture Error Modal ===== */
+.pg-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.pg-modal-box {
+  width: 480px;
+  max-width: 90%;
+  background: #ffffff;
+  color: #111111;
+  border-radius: 18px;
+  padding: 30px 35px;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  animation: slideUp 0.35s ease forwards;
+}
+
+.pg-close {
+  position: absolute;
+  right: 18px;
+  top: 14px;
+  font-size: 20px;
+  color: #cccccc;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.pg-close:hover {
+  color: #ffffff;
+}
+
+.pg-content {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.pg-icon {
+  font-size: 40px;
+  color: #ff4d4d;
+}
+
+.pg-text h3 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.pg-text p {
+  margin-top: 6px;
+  font-size: 15px;
+  color: #444444;
+}
+
+.pg-btn {
+  margin-top: 25px;
+  float: right;
+  padding: 8px 24px;
+  border-radius: 8px;
+  border: none;
+  background: #800000;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.pg-btn:hover {
+  background: #a00000;
+}
+
+.pg-btn:hover {
+  background: #800000;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(25px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+    .back-home {
+  display: block;
+  width: 230px;
+  max-width: 100%;
+  margin: 10px auto 0;     /* centers it under the Sign Up button */
+  padding: 10px;
+  background: #800000;     /* same maroon as Sign Up */
+  color: #ffffff;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;   /* remove underline */
+  cursor: pointer;
+}
+
+.pg-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pg-icon-circle {
+  width: 55px;
+  height: 55px;
+  background: #800000;      /* solid maroon */
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.center-header {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.center-header img {
+  width: 85px;
+  border-radius: 50%;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.center-header .title {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-top: 15px;
+  margin-bottom: 6px;
+  color: #800000;
+  padding-left: 0;
+}
+
+.center-header .message {
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.back-home:hover {
+  background: #a00000;     /* same hover as Sign Up */
+}
+
+    .messages {
+      margin-bottom: 12px;
+    }
+
+    .success {
+      color: #b8ffb8;
+      font-weight: bold;
+    }
+
+    .error {
+      color: #ffd2d2;
+      font-weight: bold;
+    }
+
+    .top-header {
+      position: relative;
+      top: 0;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .top-title {
+      font-size: 36px;
+      font-weight: 600;
+      color: #800000;
+      margin: 0;
+    }
+
+    .top-message {
+      font-size: 14px;
+      color: #4b5563;
+      margin-top: 6px;
+    }
+
+    .input-group {
+      position: relative;
+    }
+
+    .input-group i {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #800000; /* 🔥 maroon */
+      font-size: 14px;
+      pointer-events: none;
+      transition: 0.2s ease;
+    }
+
+    /* add space so text doesn't overlap icon */
+    .input-group .input {
+      padding-right: 40px;
+    }
+
+    .brand-header{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      margin-bottom:10px;
+    }
+
+    .brand-logo{
+      width:60px;
+      height:60px;
+      object-fit:cover;
+    }
+
+    .brand-text{
+      font-size:36px;
+      font-weight:700;
+      color:#800000;
+      letter-spacing:1px;
+    }
+
+    .form-title{
+      font-size:18px;
+      font-weight:700;
+      color:#800000;
+      margin-bottom:6px;
+      margin-left:5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="/" class="btn btn-back">
+    <i class="fa-solid fa-arrow-left"></i>
+    Back to Home
+  </a>
+</div>
+
+<div class="cyber-pattern"></div>
+  <div class="form-container">
+
+    <div class="top-header">
+
+      <div class="brand-header">
+        <img src="/static/images/pup_logo.png" class="brand-logo">
+        <span class="brand-text">PROGESTURE</span>
+      </div>
+
+      <p class="top-message">
+        Create your account to continue to ProGesture.
+      </p>
+
+    </div>
+
+    <form class="form" method="POST" action="{{ url_for('signup') }}">
+
+<div class="right-side">
+
+  <p class="form-title">Create your Account</p>
+
+  <div class="flex">
+    <label class="input-group">
+      <input class="input" type="text" name="first_name" required>
+      <span>First Name</span>
+    </label>
+
+    <label class="input-group">
+      <input class="input" type="text" name="surname" required>
+      <span>Last Name</span>
+    </label>
+  </div>
+
+  <label class="input-group">
+    <input class="input"
+           type="text"
+           name="username"
+           pattern="^[a-zA-Z0-9_]{4,20}$"
+           title="Username must be 4-20 characters (letters, numbers, underscore only)"
+           required>
+    <span>Username</span>
+    <i class="fa-solid fa-at"></i>
+  </label>
+
+  <label class="input-group">
+    <input class="input"
+           type="email"
+           name="email"
+           pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
+           title="Please enter a valid Gmail address"
+           required>
+    <span>Gmail</span>
+    <i class="fa-solid fa-envelope"></i>
+  </label>
+
+  <label class="input-group">
+    <input class="input" type="password" id="password" name="password" required>
+    <span>Password</span>
+    <i class="fa-solid fa-lock"></i>
+  </label>
+
+  <label class="input-group">
+    <input class="input" type="password" id="confirm_password" name="confirm_password" required>
+    <span>Confirm Password</span>
+  </label>
+
+  <p id="passwordError" class="password-error"></p>
+
+  <div class="show-password">
+    <input type="checkbox" id="togglePassword">
+    <label for="togglePassword">Show Password</label>
+  </div>
+
+  <button class="submit" id="submitBtn" type="submit">Submit</button>
+
+  <p class="signin">
+    Already have an account?
+    <a href="{{ url_for('login') }}">Sign in</a>
+  </p>
+
+</div>
+
+      <script>
+        const toggle = document.getElementById("togglePassword");
+        const password = document.getElementById("password");
+        const confirmPassword = document.getElementById("confirm_password");
+        const passwordError = document.getElementById("passwordError");
+        const form = document.querySelector(".form");
+
+        // Show / Hide password
+        if (toggle) {
+          toggle.addEventListener("change", function () {
+            const type = this.checked ? "text" : "password";
+            password.type = type;
+            confirmPassword.type = type;
+          });
+        }
+
+        // Real-time password match check
+        function checkPasswords() {
+          if (confirmPassword.value === "") {
+            passwordError.style.display = "none";
+            return;
+          }
+
+          if (password.value !== confirmPassword.value) {
+            passwordError.textContent = "Passwords do not match";
+            passwordError.style.display = "block";
+            confirmPassword.style.borderColor = "#cc0000";
+          } else {
+            passwordError.textContent = "";
+            passwordError.style.display = "none";
+            confirmPassword.style.borderColor = "#16a34a"; // green when correct
+          }
+        }
+
+        password.addEventListener("input", checkPasswords);
+        confirmPassword.addEventListener("input", checkPasswords);
+
+        // Prevent submit if not matching
+        form.addEventListener("submit", function (e) {
+
+          if (password.value !== confirmPassword.value) {
+            e.preventDefault();
+            passwordError.textContent = "Passwords do not match";
+            passwordError.style.display = "block";
+            confirmPassword.style.borderColor = "#cc0000";
+            return;
+          }
+
+          // Disable button immediately to prevent multiple clicks
+          const submitBtn = document.getElementById("submitBtn");
+          submitBtn.disabled = true;
+          submitBtn.innerText = "Creating Account...";
+        });
+      </script>
+
+      <script>
+      function closeModal() {
+        const modal = document.getElementById("errorModal");
+        if (modal) {
+          modal.style.display = "none";
+        }
+      }
+      </script>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            {% if category == 'signup' %}
+            <div id="pgModal" class="pg-modal">
+              <div class="pg-modal-box">
+
+                <div class="pg-close" onclick="closePgModal()">×</div>
+
+                <div class="pg-content">
+                  <div class="pg-icon">
+                    <span class="pg-icon-circle">!</span>
+                  </div>
+
+                  <div class="pg-text">
+                    <h3>Error!</h3>
+                    <p>{{ message }}</p>
+                  </div>
+                </div>
+
+                <button class="pg-btn" onclick="closePgModal()">OK</button>
+
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <script>
+      function closePgModal() {
+        const modal = document.getElementById("pgModal");
+        if (modal) {
+          modal.style.display = "none";
+        }
+      }
+      </script>
+
+
+</body>
+</html>

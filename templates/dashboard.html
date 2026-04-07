@@ -1,0 +1,2902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard - ProGesture</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<script src="https://unpkg.com/feather-icons"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+/* ================= GLOBAL ================= */
+
+body{
+  margin:0;
+  font-family:'Inter', sans-serif;
+  background:#f5f6f8;
+}
+
+.container{
+  display:flex;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+  width:200px;
+  background:#800000;
+  color:white;
+  padding:20px;
+  height:100vh;
+  position:fixed;
+  left:0;
+  top:0;
+  display:flex;
+  flex-direction:column;
+}
+
+.sidebar-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:25px;
+}
+
+.sidebar-header img{
+  width:35px;
+}
+
+.progesture{
+  color:#ffd700;
+  font-weight:600;
+  font-size:20px;
+}
+
+.sidebar a{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 14px;
+  border-radius:50px;
+  text-decoration:none;
+  color:white;
+  margin-bottom:6px;
+  font-size:14px;
+  font-weight:500;
+}
+
+.sidebar a:hover{
+  background:rgba(255,255,255,0.15);
+}
+
+.sidebar a.active{
+  background:#ffd700;
+  color:#800000;
+  font-weight:bold;
+}
+
+/* ===== NEW BUTTON ===== */
+
+.new-upload{
+  background:#ffffff;
+  color:#000000;
+  border:none;
+  border-radius:14px;
+  padding:18px 18px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 6px 16px rgba(0,0,0,0.15);
+  margin-bottom:20px;
+  transition:0.2s;
+}
+
+.new-upload:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 24px rgba(0,0,0,0.22);
+}
+
+.new-upload i{
+  font-size:18px;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+  flex:1;
+  padding:30px 40px;
+  margin-left:240px;
+  background:#ffffff;
+  min-height:100vh;
+}
+
+/* ================= TOOLBAR ================= */
+
+.top-toolbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px; /* ⬅️ prevents collision */
+}
+
+.search-box{
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  background:#f1f3f4;
+  border-radius:30px;
+
+  padding:14px 18px;
+  width:700px;
+
+  border:1px solid transparent;
+  transition:0.2s;
+}
+
+/* focus effect */
+.search-box:focus-within{
+  background:#ffffff;
+  border:1px solid #d0d4d9;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* search icon */
+.search-icon{
+  color:#5f6368;
+  font-size:14px;
+}
+
+/* input */
+.search-box input{
+  border:none;
+  outline:none;
+  background:transparent;
+  flex:1;
+  font-size:14px;
+  color:#202124;
+}
+
+/* Ctrl + K hint */
+.shortcut-hint{
+  display:flex;
+  gap:4px;
+}
+
+.shortcut-hint span{
+  background:#e0e0e0;
+  color:#555;
+  font-size:12px;
+  padding:3px 6px;
+  border-radius:6px;
+  font-weight:500;
+}
+
+.shortcut-hint .plus{
+  background:transparent;
+  padding:0 2px;
+  color:#888;
+  font-weight:600;
+}
+
+.toolbar-actions{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+/* make FAQ button same visual weight as profile */
+.icon-btn{
+  width:40px;
+  height:40px;
+  border:none;
+  border-radius:50%;
+  background:#f1f3f4; /* match modern UI */
+  color:#5f6368;
+  font-size:18px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.icon-btn:hover{
+  background:#e8eaed;
+}
+
+/* ===== FAQ BUTTON (CLEAN VERSION) ===== */
+
+.faq-btn{
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  background:#f1f3f4;
+  color:#333;
+
+  padding:8px 14px;
+  border-radius:999px;
+
+  font-size:14px;
+  font-weight:500;
+  text-decoration:none;
+
+  transition:0.2s;
+}
+
+.faq-btn i{
+  font-size:16px;
+}
+
+.faq-btn:hover{
+  background:#e8eaed;
+  transform:translateY(-1px);
+}
+
+/* ===== CLEAN FAQ ICON ===== */
+
+.faq-icon{
+  width:40px;
+  height:40px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:50%;
+
+  background:#f8f9fa;
+  color:#5f6368;
+
+  border:1px solid #e0e0e0;
+
+  transition:all 0.25s ease;
+
+  text-decoration: none;
+}
+
+.faq-icon:hover{
+  background:#f1f3f4;
+  color:#000;
+
+  transform:translateY(-1px); /* more subtle */
+  box-shadow:0 4px 12px rgba(0,0,0,0.12);
+}
+
+.faq-icon i{
+  font-size:16px;
+}
+
+.profile-circle{
+  width:42px;
+  height:42px;
+
+  border-radius:50%;
+  overflow:hidden;
+
+  border:2px solid transparent;
+
+  background:linear-gradient(white, white) padding-box,
+             linear-gradient(135deg, #800000, #ffd700) border-box;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-weight:600;
+  font-size:15px;
+
+  cursor:pointer;
+  transition:all 0.25s ease;
+}
+
+.profile-circle:hover{
+  transform:scale(1.05);
+  box-shadow:0 6px 16px rgba(0,0,0,0.2);
+}
+
+.modern-actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.modern-profile{
+  position:relative;
+}
+
+/* ================= SORT ================= */
+
+.sort-wrapper{
+  position:relative;
+}
+
+.sort-btn{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  background:#f8f9fa;
+  border:1px solid #e0e0e0;
+  border-radius:12px;
+
+  padding:10px 16px;
+
+  font-size:14px;
+  color:#444;
+
+  cursor:pointer;
+
+  transition:all 0.2s ease;
+}
+
+.sort-btn i:first-child{
+  font-size:14px;
+  color:#800000; /* maroon */
+}
+
+.sort-btn strong{
+  font-weight:600;
+  color:#202124;
+}
+
+.sort-btn:hover{
+  background:#f1f3f4;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* left icon */
+.sort-btn .icon{
+  font-size:15px;
+}
+
+.sort-btn span{
+  font-weight:500;
+  color:#000;
+}
+
+#sortLabel{
+  font-weight:500;
+  color:#000;
+}
+
+/* divider line */
+.sort-divider{
+  width:1px;
+  height:18px;
+  background:#d0d4d9;
+}
+
+/* dropdown arrow */
+.sort-arrow{
+  font-size:12px;
+}
+
+/* ===== SORT MENU (EXACT STYLE) ===== */
+
+.sort-menu{
+  position:absolute;
+  top:100%;
+  right:0;
+  margin-top:10px;
+
+  width:240px;
+  padding:10px;
+
+  background:#ffffff;
+  border-radius:20px;
+
+  box-shadow:0 20px 40px rgba(0,0,0,0.12);
+
+  display:none;
+  flex-direction:column;
+  z-index:1000;
+}
+
+.sort-menu{
+  animation:fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn{
+  from{
+    opacity:0;
+    transform:translateY(-5px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* ITEM */
+.sort-item{
+  display:flex;
+  align-items:center;
+
+  gap: 8px;
+  padding:10px 10px;
+
+  justify-content:space-between;
+
+  padding:14px 12px;
+  border-radius:14px;
+
+  cursor:pointer;
+  position:relative;
+}
+
+/* LEFT SIDE */
+.sort-left{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+/* ICON BOX */
+.sort-left i,
+.sort-left svg{
+  width:42px;
+  height:42px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:#f1f3f4;
+  border-radius:14px;
+}
+
+.sort-left svg{
+  width:20px;
+  height:20px;
+
+  stroke:#800000;
+  stroke-width:2;
+
+  background:#f1f3f4;
+  padding:10px;
+  border-radius:12px;
+
+  box-shadow:0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* TEXT */
+.sort-title{
+  font-size:16px;
+  font-weight:600;
+  color:#202124;
+}
+
+.sort-sub{
+  font-size:13px;
+  color:#777;
+  margin-top:2px;
+}
+
+/* ARROW */
+.sort-arrow{
+  color:#bbb;
+  font-size:14px;
+  margin-left:auto; /* pushes arrow to right cleanly */
+  position: relative;
+}
+
+/* DIVIDER (THIS IS IMPORTANT) */
+.sort-item:not(:last-child){
+  border-bottom:1px solid #eee;
+}
+
+.sort-submenu{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  left:100%; /* attach directly to parent edge */
+  margin-left:4px; /* small gap only */
+
+  background:#ffffff;
+  border-radius:16px;
+  padding:8px;
+
+  min-width:180px;
+
+  box-shadow:0 12px 30px rgba(0,0,0,0.15);
+
+  display:none;
+  flex-direction:column;
+  gap:6px;
+  z-index:2000;
+  margin: 2px;
+}
+
+/* submenu item */
+.sort-submenu div{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  padding:12px 14px;
+  border-radius:12px;
+
+  font-size:14px;
+  font-weight:500;
+  color:#333;
+
+  cursor:pointer;
+  transition:0.2s;
+}
+
+/* hover = soft modern */
+.sort-submenu div:hover{
+  background:#f3f4f6;
+}
+
+/* ACTIVE (like image highlight) */
+.sort-submenu div.active{
+  background:transparent;      /* remove green background */
+  color:#800000;               /* maroon */
+  font-weight:600;
+}
+
+/* ================= WELCOME ================= */
+
+.welcome-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:25px;
+}
+
+.welcome-user{
+  font-size:20px;
+  font-weight:600;
+}
+
+.username{
+  color:#800000;
+}
+
+/* ================= STATS ================= */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:18px;
+  margin-top:20px;
+}
+
+.stat-card{
+  padding:18px 20px;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+
+  background:linear-gradient(145deg,#ffffff,#f3f4f6);
+  box-shadow:0 6px 16px rgba(0,0,0,0.06);
+
+  transition:0.25s;
+}
+
+.stat-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 14px 28px rgba(0,0,0,0.12);
+}
+
+.stat-left{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.stat-info{
+  display:flex;
+  flex-direction:column;
+}
+
+.stat-title{
+  font-size:13px;
+  color:#777;
+}
+
+.stat-value{
+  font-size:20px;
+  font-weight:600;
+}
+
+.stat-trend{
+  font-size:12px;
+  margin-top:4px;
+  font-weight:500;
+}
+
+.trend-up{
+  color:#16a34a;
+}
+
+.trend-down{
+  color:#ea580c;
+}
+
+/* 🔥 TRASH TREND (RED) */
+.trend-trash-up{
+  color:#ea580c;
+}
+
+.progress-circle{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:conic-gradient(#7c3aed 24%, #e5e7eb 0%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.progress-inner{
+  width:36px;
+  height:36px;
+  background:#fff;
+  border-radius:50%;
+}
+
+.stat-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 22px rgba(0,0,0,0.12);
+}
+
+.stat-icon{
+  width:44px;
+  height:44px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+}
+
+.stat-title{
+  font-size:13px;
+  color:#666;
+}
+
+.stat-value{
+  font-size:18px;
+  font-weight:600;
+}
+
+/* ================= FILE GRID ================= */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:24px;
+  margin-top:20px;
+}
+
+.no-content{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#800000;
+  margin-top:20px;
+}
+
+/* ================= CARD ================= */
+
+.card{
+  background:#ffffff;
+  border-radius:14px;
+  padding:14px; /* 🔥 change from 12px → 14px */
+
+  display:flex;
+  flex-direction:column;
+  gap:8px; /* 🔥 change from 6px → 8px */
+
+  box-shadow:0 2px 10px rgba(0,0,0,0.08);
+  transition:0.2s;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.12);
+}
+
+.file-info{
+  margin-top:10px;
+}
+
+.title{
+  font-size:14px;
+  font-weight:600;
+  color:#202124;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.file-meta{
+  font-size:12px;
+  color:#777;
+  margin-top:4px;
+}
+
+.preview{
+  background:#ffffff;
+  height:120px;
+  border-radius:12px;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  overflow:hidden;
+  position:relative;
+}
+
+.thumb-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.actions{
+  margin-top:12px;
+  display:flex;
+  justify-content:center;
+  gap:14px;
+
+  background:transparent; /* remove container look */
+  padding:0;
+}
+
+.actions a{
+  flex:1;
+  text-align:center;
+
+  color:#5f6368;
+  font-size:14px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none; /* 🔥 removes underline */
+}
+
+.actions a:hover{
+  color:#202124;
+}
+
+.actions a,
+.actions button{
+  width:44px;
+  height:44px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:12px; /* rounded square */
+  background:#f8f9fa;
+
+  border:1px solid #e0e0e0;
+
+  cursor:pointer;
+
+  transition:all 0.2s ease;
+  font-size:16px;
+}
+
+/* HOVER (soft lift effect) */
+.actions a:hover,
+.actions button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 14px rgba(0,0,0,0.12);
+}
+
+.actions a:nth-child(3) i{
+  color:#e53935;
+}
+
+/* TRASH SECTION (trash = 2nd button) */
+.actions a:nth-child(2) i{
+  color:#e53935;
+}
+
+/* OPEN = BLUE */
+.actions a:nth-child(1) i{
+  color:#1a73e8;
+}
+
+/* FAVORITE = GRAY / GOLD */
+.actions a:nth-child(2) i{
+  color:#9e9e9e;
+}
+.actions a:nth-child(2):hover i{
+  color:red;
+}
+
+.actions a i.fa-trash{
+  color:#e53935 !important;
+}
+
+/* ================= ACTION TOAST ================= */
+
+#toast-container{
+  position:fixed;
+  bottom:20px;
+  left:20px;
+  z-index:6000;
+}
+
+.toast{
+  background:#1f1f1f;
+  color:#fff;
+
+  padding:14px 18px;
+  border-radius:10px;
+
+  display:flex;
+  align-items:center;
+  gap:18px;
+
+  box-shadow:0 10px 30px rgba(0,0,0,0.3);
+
+  font-size:14px;
+  animation:fadeSlide 0.3s ease;
+}
+
+.toast button{
+  background:none;
+  border:none;
+  color:#8ab4f8; /* Undo blue */
+  font-weight:500;
+  cursor:pointer;
+}
+
+.toast .close{
+  color:#aaa;
+  font-size:16px;
+  cursor:pointer;
+}
+
+@keyframes fadeSlide{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* ================= LOGOUT MODAL ================= */
+
+.logout-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.55);
+  z-index:3000;
+  align-items:center;
+  justify-content:center;
+}
+
+.logout-dialog{
+  background:#800000;
+  color:white;
+  border-radius:18px;
+  padding:22px;
+  width:min(420px,90vw);
+}
+
+.logout-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:18px;
+}
+
+.logout-btn{
+  padding:8px 16px;
+  border-radius:999px;
+  font-weight:700;
+  cursor:pointer;
+  border:none;
+}
+
+.logout-btn-confirm{
+  background:#ffd700;
+  color:#800000;
+}
+
+.logout-btn-cancel{
+  background:transparent;
+  color:#ffd700;
+  border:1px solid #ffd700;
+}
+
+/* ===== DELETE FOREVER MODAL ===== */
+
+.delete-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.45);
+  z-index:4000;
+  align-items:center;
+  justify-content:center;
+}
+
+.delete-dialog{
+  background:#fff;
+  border-radius:22px;
+  padding:26px;
+  width:min(460px,90vw);
+  box-shadow:0 20px 40px rgba(0,0,0,0.2);
+}
+
+.delete-title{
+  font-size:20px;
+  font-weight:600;
+  color:#202124;
+}
+
+.delete-text{
+  font-size:14px;
+  color:#666;
+  margin-top:10px;
+}
+
+.delete-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:12px;
+  margin-top:22px;
+}
+
+.delete-cancel{
+  background:transparent;
+  border:none;
+  color:#1a73e8;
+  font-weight:550;
+  cursor:pointer;
+}
+
+.delete-confirm{
+  background:#b3261e;
+  color:white;
+  border:none;
+  padding:10px 18px;
+  border-radius:999px;
+  font-weight:550;
+  cursor:pointer;
+}
+
+/* ===== PROFILE DROPDOWN ===== */
+
+.profile-wrapper{
+  position:relative;
+  display:flex;
+  align-items:center;
+}
+
+.profile-dropdown{
+  position:absolute;
+  top:60px; /* ⬅️ increase from ~45px to push it below toolbar */
+  right:0;
+
+  width:240px;
+  background:#ffffff;
+
+  border-radius:16px;
+  padding:4px;
+
+  box-shadow:0 20px 40px rgba(0,0,0,0.15);
+
+  display:none;
+  flex-direction:column;
+
+  z-index:3000; /* ensure it stays above everything cleanly */
+}
+/* HEADER */
+.profile-header{
+  padding:8px 10px;
+}
+
+.profile-name{
+  font-size:14px;
+  font-weight:600;
+  color:#202124;
+}
+
+.profile-email{
+  font-size:12px;
+  color:#777;
+  margin-top:2px;
+}
+
+/* DIVIDER */
+.dropdown-divider{
+  height:1px;
+  background:#eee;
+  margin:4px 0;
+}
+
+/* ITEM */
+.dropdown-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  padding:9px 10px;
+  border-radius:12px;
+
+  text-decoration:none;
+  color:#333;
+  font-size:14px;
+  font-weight:500;
+
+  transition:all 0.2s ease;
+}
+
+/* ICON */
+.dropdown-item i{
+  width:34px;
+  height:34px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:#f1f3f4;
+  border-radius:10px;
+
+  color:#800000;
+}
+
+/* HOVER */
+.dropdown-item:hover{
+  background:#f8f9fa;
+  transform:translateX(2px);
+}
+
+/* LOGOUT STYLE */
+.dropdown-item.logout{
+  color:#b3261e;
+}
+
+.dropdown-item.logout i{
+  background:#fdecea;
+  color:#b3261e;
+}
+
+/* ================= UPLOAD POPUP ================= */
+
+.upload-popup{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  width:300px;
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+  font-size:14px;
+  overflow:hidden;
+  z-index:5000;
+  display:none;
+}
+
+.upload-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 14px;
+  background:#f1f3f4;
+  font-weight:500;
+}
+
+.upload-actions i{
+  margin-left:10px;
+  cursor:pointer;
+  color:#555;
+}
+
+.upload-body{
+  padding:12px 14px;
+}
+
+.upload-status{
+  font-size:13px;
+  color:#777;
+  margin-bottom:10px;
+}
+
+.upload-file{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.upload-file i{
+  color:#2b579a;
+  font-size:18px;
+}
+
+.loader{
+  margin-left:auto;
+  width:18px;
+  height:18px;
+  border:3px solid #ddd;
+  border-top:3px solid #4285f4;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+  to{ transform:rotate(360deg); }
+}
+
+
+/* ===== FILE BADGES ===== */
+
+.file-badge{
+  position:absolute;
+  top:8px;
+  left:8px;
+  color:white;
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:6px;
+  font-weight:600;
+}
+
+.stat-green{
+  background:linear-gradient(145deg,#f0fdf4,#dcfce7);
+}
+
+.stat-yellow{
+  background:linear-gradient(145deg,#fffbeb,#fef3c7);
+}
+
+.stat-red{
+  background:linear-gradient(145deg,#fef2f2,#fee2e2);
+}
+
+.stat-purple{
+  background:linear-gradient(145deg,#f5f3ff,#ede9fe);
+}
+
+/* FILE TYPE COLORS */
+.badge-pdf{ background:#e53935; }     /* red */
+.badge-ppt{ background:#fb8c00; }     /* orange */
+.badge-doc{ background:#1e88e5; }     /* blue */
+.badge-img{ background:#43a047; }     /* green */
+.badge-video{ background:#8e24aa; }   /* purple */
+.badge-other{ background:#757575; }   /* gray */
+
+.favorite-badge{
+  position:absolute;
+  top:8px;
+  right:8px;
+  background:white;
+  color:gold;
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* ===== SIDEBAR DIVIDER ===== */
+.sidebar-divider{
+  width:100%;
+  height:1px;
+  background:rgba(255,255,255,0.25);
+  margin:18px 0;
+}
+
+/* ===== STORAGE SECTION (PRO STYLE) ===== */
+
+.storage-section{
+  margin-top:10px;
+  padding:0;
+
+  border-radius:0;
+
+  background:transparent; /* ✅ removes gray box */
+  backdrop-filter:none;
+}
+
+.storage-title{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+  font-weight:500;
+  margin-bottom:6px;
+}
+
+.storage-title i{
+  font-size:14px;
+}
+
+.storage-text{
+  font-size:12px;
+  color:#ffecec;
+  opacity:0.85;
+  margin:6px 0 12px;
+}
+
+.storage-bar{
+  width:100%;
+  height:5px;
+  background:#5a0000;
+  border-radius:6px;
+  overflow:hidden;
+  margin-bottom:16px;
+}
+
+.storage-fill{
+  width:25%;
+  height:100%;
+  background:#ffd700;
+}
+
+/* ===== UPGRADE BUTTON ===== */
+
+.upgrade-btn{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  padding:14px;
+  margin-top:10px;
+
+  border:none;
+  border-radius:16px;
+
+  cursor:pointer;
+  text-align:left;
+  color:white;
+
+  /* ✅ SAME STYLE AS OLD STORAGE BOX */
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(6px);
+
+  box-shadow:0 6px 18px rgba(0,0,0,0.25);
+
+  transition:0.2s;
+}
+
+.upgrade-btn:hover{
+  background:rgba(255,255,255,0.12);
+  transform:translateY(-2px);
+}
+
+.upgrade-btn i{
+  font-size:16px;
+}
+
+.upgrade-title{
+  font-size:14px;
+  font-weight:600;
+}
+
+.upgrade-sub{
+  font-size:11px;
+  opacity:0.8;
+}
+
+/* ===== FILTER BUTTON ===== */
+
+.filter-btn{
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  background:#f8f9fa;
+  border:1px solid #e0e0e0;
+  border-radius:12px;
+
+  padding:10px 16px;
+
+  font-size:14px;
+  color:#000;
+
+  cursor:pointer;
+  transition:all 0.2s ease;
+}
+
+.filter-btn svg{
+  width:16px;
+  height:16px;
+  stroke:#800000;
+}
+
+.filter-btn:hover{
+  background:#f1f3f4;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+.filter-btn .fa-chevron-down{
+  color:#800000; /* maroon */
+}
+
+.sort-btn .fa-chevron-down{
+  color:#800000; /* maroon */
+}
+
+/* ===== FILTER MENU ===== */
+
+.filter-wrapper{
+  position:relative;
+}
+
+.filter-menu{
+  position:absolute;
+  top:100%;
+  right:0;
+  margin-top:10px;
+
+  width:240px;
+  padding:8px;
+
+  background:#ffffff;
+  border-radius:20px;
+
+  box-shadow:0 20px 40px rgba(0,0,0,0.12);
+
+  display:none;
+  flex-direction:column;
+  z-index:1100;
+
+  animation:fadeIn 0.2s ease;
+}
+
+/* ITEM */
+.filter-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:10px 10px;
+  border-radius:12px;
+
+  cursor:pointer;
+  transition:0.2s;
+}
+
+/* LEFT SIDE */
+.filter-left{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+/* ICON STYLE */
+.filter-left i{
+  width:36px;
+  height:36px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:#f1f3f4;
+  border-radius:12px;
+
+  color:#800000;
+  font-size:14px;
+
+  box-shadow:0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* TEXT */
+.filter-left span{
+  font-size:14px;
+  font-weight:600;
+  color:#202124;
+}
+
+/* CHECKBOX */
+.filter-item input{
+  width:16px;
+  height:16px;
+  accent-color:#800000;
+}
+
+/* DIVIDER */
+.filter-item:not(:last-child){
+  border-bottom:1px solid #eee;
+}
+
+/* HOVER */
+.filter-item:hover{
+  background:#f8f9fa;
+}
+
+/* ACTIVE */
+.filter-item.active{
+  color:#800000;
+  font-weight:600;
+}
+
+/* CHECKBOX STYLE */
+.filter-menu input[type="checkbox"]{
+  pointer-events:none; /* click whole row instead */
+  width:16px;
+  height:16px;
+  accent-color:#800000;
+}
+
+
+.filter-menu div:hover{
+  background:#f4f4f4;
+}
+
+/* ACTIVE STATE */
+.filter-menu div.active{
+  background:transparent;   /* ❌ remove highlight */
+  color:#800000;            /* ✅ maroon text */
+  font-weight:600;
+}
+
+/* remove spacing issue for All Files */
+.filter-menu div.no-checkbox{
+  justify-content:flex-start;
+}
+
+/* ===== NEW SORT MENU DESIGN ===== */
+
+.sort-menu{
+  position:absolute;
+  top:100%;
+  right:0;
+  margin-top:8px;
+
+  background:#ffffff;
+  border-radius:16px;
+
+  box-shadow:0 12px 30px rgba(0,0,0,0.15);
+
+  width:240px;
+  padding:8px;
+
+  display:none;
+  flex-direction:column;
+  z-index:1000;
+}
+
+.sort-item{
+  display:flex;
+  align-items:center;
+  gap: -200px;
+
+  padding:10px 10px;
+  border-radius:12px;
+
+  cursor:pointer;
+  transition:0.2s;
+}
+
+/* left side */
+.sort-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+/* icon */
+.sort-left i{
+  width:42px;
+  height:42px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:#f1f3f4; /* softer modern gray */
+  border-radius:12px;
+
+  color:#800000;
+  font-size:16px;
+
+  box-shadow:0 2px 6px rgba(0,0,0,0.08); /* subtle elevation */
+}
+
+/* text */
+.sort-title{
+  font-size:14px;
+  font-weight:600;
+  color:#202124;
+}
+
+.sort-sub{
+  font-size:12px;
+  color:#777;
+}
+
+/* arrow */
+.sort-arrow{
+  color:#bbb;
+  font-size:12px;
+}
+
+/* hover */
+.sort-item:hover{
+  background:transparent;
+}
+
+/* ===== EMPTY STATE (MODERN) ===== */
+
+.empty-state{
+  width:100%;
+  height:60vh;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
+}
+
+.empty-illustration{
+  width:320px;
+  max-width:100%;
+  margin-bottom:20px;
+  opacity:0.95;
+}
+
+.empty-title{
+  font-size:22px;
+  font-weight:600;
+  color:#202124;
+}
+
+.empty-sub{
+  font-size:14px;
+  color:#777;
+  margin-top:6px;
+}
+
+.upload-filename{
+  max-width:160px;   /* adjust if needed */
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display:inline-block;
+  vertical-align:middle;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="sidebar-header">
+<img src="static/images/pup_logo.png">
+<div class="progesture">PROGESTURE</div>
+</div>
+
+<form action="/upload" method="POST" enctype="multipart/form-data">
+
+<input type="file" name="file" id="fileUpload" style="display:none"
+onchange="handleUpload(this)">
+
+<button type="button" class="new-upload"
+onclick="document.getElementById('fileUpload').click()">
+
+<i class="fa-solid fa-plus"></i>
+New
+
+</button>
+
+</form>
+
+<a class="{{ 'active' if current_view == 'allfiles' else '' }}" href="{{ url_for('dashboard') }}">
+<i class="fa-solid fa-folder"></i>
+All Files
+</a>
+
+<a class="{{ 'active' if current_view == 'favorites' else '' }}" href="{{ url_for('favorites_page') }}">
+<i class="fa-solid fa-star"></i>
+Favorites
+</a>
+
+<a class="{{ 'active' if current_view == 'trash' else '' }}" href="{{ url_for('trash_page') }}">
+<i class="fa-solid fa-trash"></i>
+Trash
+</a>
+
+<div class="sidebar-divider"></div>
+
+<!-- STORAGE -->
+
+<div class="storage-section">
+
+  <div class="storage-title">
+    <i data-feather="cloud"></i>
+    <span>Storage</span>
+  </div>
+
+  <div class="storage-text">
+    {{ total_size_gb }} GB of 2 GB used
+  </div>
+
+  <div class="storage-bar">
+    <div class="storage-fill" style="width: {{ storage_percent }}%;"></div>
+  </div>
+
+  <button class="upgrade-btn">
+    <i class="fa-solid fa-crown"></i>
+    <div>
+      <div class="upgrade-title">Upgrade Storage</div>
+      <div class="upgrade-sub">Get more space</div>
+    </div>
+  </button>
+
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="top-toolbar">
+
+<div class="search-box">
+  <i class="fa fa-search search-icon"></i>
+
+  <input id="fileSearch" placeholder="Search files, folders, or keywords...">
+
+  <div class="shortcut-hint">
+    <span>Ctrl</span>
+    <span class="plus">+</span>
+    <span>K</span>
+  </div>
+</div>
+
+<div class="toolbar-actions modern-actions">
+
+<div class="profile-wrapper modern-profile">
+
+  <div class="profile-circle" onclick="toggleProfileMenu()">
+
+    {% if profile.profile_pic %}
+      <img src="{{ url_for('static', filename=profile.profile_pic) }}"
+           style="width:100%; height:100%; border-radius:50%; object-fit:cover;">
+    {% else %}
+      {{ session["username"][0] | upper }}
+    {% endif %}
+
+  </div>
+
+  <div class="profile-dropdown" id="profileDropdown">
+
+    <!-- USER INFO -->
+    <div class="profile-header">
+      <div class="profile-name">{{ session["username"] }}</div>
+      <div class="profile-email">Logged in</div>
+    </div>
+
+    <div class="dropdown-divider"></div>
+
+    <!-- MENU ITEMS -->
+    <a href="{{ url_for('profile') }}" class="dropdown-item">
+      <i class="fa-solid fa-user"></i>
+      <span>View Profile</span>
+    </a>
+    <div class="dropdown-divider"></div>
+
+    <a href="{{ url_for('logout') }}" class="dropdown-item logout">
+      <i class="fa-solid fa-right-from-bracket"></i>
+      <span>Logout</span>
+    </a>
+
+  </div>
+
+</div>
+
+</div>
+</div>
+
+<div class="welcome-row">
+
+<div>
+  <div class="welcome-user">
+    Welcome, <span class="username">{{ session["username"] }}</span>
+  </div>
+  <div style="font-size:13px;color:#777;margin-top:4px;">
+    {% if current_view == "favorites" %}
+      Quickly access your starred files in one place.
+    {% elif current_view == "trash" %}
+      Files in trash will be permanently deleted after 30 days.
+    {% else %}
+      Upload and select files to be displayed in ProGesture.
+    {% endif %}
+  </div>
+</div>
+
+<div style="display:flex; align-items:center; gap:14px; position:relative;">
+
+  <div class="sort-wrapper">
+    <button class="sort-btn" onclick="toggleSortMenu()">
+      <i class="fa-solid fa-arrow-up-wide-short"></i>
+      <span>Sort by: <span id="sortLabel">Date (Newest)</span></span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </button>
+
+    <div class="sort-menu" id="sortMenu">
+
+      <div class="sort-item" onclick="toggleSubmenu('nameMenu')">
+        <div class="sort-left">
+          <i data-feather="folder"></i>
+          <div>
+            <div class="sort-title">Name</div>
+            <div class="sort-sub">Sort alphabetically</div>
+          </div>
+        </div>
+        <i class="fa-solid fa-chevron-right sort-arrow"></i>
+
+        <!-- SUBMENU INSIDE -->
+        <div class="sort-submenu" id="nameMenu">
+
+          <div onclick="sortFiles('name_asc'); setActiveSort(this)">
+            A to Z
+          </div>
+
+          <div onclick="sortFiles('name_desc'); setActiveSort(this)">
+            Z to A
+          </div>
+
+        </div>
+      </div>
+
+      <!-- DATE -->
+      <div class="sort-item" onclick="toggleSubmenu('dateMenu')">
+
+        <div class="sort-left">
+          <i data-feather="calendar"></i>
+          <div>
+            <div class="sort-title">Date</div>
+            <div class="sort-sub">Sort by date modified</div>
+          </div>
+        </div>
+
+        <i class="fa-solid fa-chevron-right sort-arrow"></i>
+
+        <!-- ✅ MOVE SUBMENU INSIDE -->
+        <div class="sort-submenu" id="dateMenu">
+          <div onclick="sortFiles('date_desc'); setActiveSort(this)">
+            New to old
+          </div>
+
+          <div onclick="sortFiles('date_asc'); setActiveSort(this)">
+            Old to new
+          </div>
+        </div>
+
+      </div>
+
+      <div class="sort-item" onclick="toggleSubmenu('sizeMenu')">
+        <div class="sort-left">
+          <i data-feather="hard-drive"></i>
+          <div>
+            <div class="sort-title">Size</div>
+            <div class="sort-sub">Sort by file size</div>
+          </div>
+        </div>
+        <i class="fa-solid fa-chevron-right sort-arrow"></i>
+
+        <!-- SIZE SUBMENU -->
+        <div class="sort-submenu" id="sizeMenu">
+          <div onclick="sortFiles('size_desc'); setActiveSort(this)">
+            Large to small
+          </div>
+
+          <div onclick="sortFiles('size_asc'); setActiveSort(this)">
+            Small to large
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FILTER BUTTON -->
+  <div class="filter-wrapper">
+
+    <button class="filter-btn" onclick="toggleFilterMenu()">
+      <i data-feather="filter"></i>
+      <span id="filterLabel">Filter</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </button>
+
+    <div class="filter-menu" id="filterMenu">
+
+      <div class="filter-item" data-type="pdf">
+        <div class="filter-left">
+          <i class="fa-solid fa-file-lines"></i>
+          <span>PDF</span>
+        </div>
+        <input type="checkbox">
+      </div>
+
+      <div class="filter-item" data-type="ppt">
+        <div class="filter-left">
+          <i class="fa-solid fa-file-powerpoint"></i>
+          <span>Presentation</span>
+        </div>
+        <input type="checkbox">
+      </div>
+
+      <div class="filter-item" data-type="doc">
+        <div class="filter-left">
+          <i class="fa-solid fa-file-word"></i>
+          <span>Document</span>
+        </div>
+        <input type="checkbox">
+      </div>
+
+      <div class="filter-item" data-type="image">
+        <div class="filter-left">
+          <i class="fa-solid fa-image"></i>
+          <span>Images</span>
+        </div>
+        <input type="checkbox">
+      </div>
+
+      <div class="filter-item" data-type="video">
+        <div class="filter-left">
+          <i class="fa-solid fa-video"></i>
+          <span>Videos</span>
+        </div>
+        <input type="checkbox">
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
+<!-- ================= STATS ================= -->
+
+{% if current_view == "allfiles" %}
+<div class="stats">
+
+  <!-- TOTAL FILES -->
+  <div class="stat-card stat-green">
+    <div class="stat-left">
+      <div class="stat-icon" style="background:#dcfce7;color:#16a34a;">
+        <i class="fa-solid fa-folder"></i>
+      </div>
+      <div class="stat-info">
+        <div class="stat-title">Total Files</div>
+        <div class="stat-value" id="totalFilesCount">{{ files|length }}</div>
+        <div class="stat-trend trend-up" id="filesTrend">
+          ↑ {{ files_this_week }} this week
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAVORITES -->
+  <div class="stat-card stat-yellow">
+    <div class="stat-left">
+      <div class="stat-icon" style="background:#fef3c7;color:#f59e0b;">
+        <i class="fa-solid fa-star"></i>
+      </div>
+      <div class="stat-info">
+        <div class="stat-title">Favorites</div>
+        <div class="stat-value" id="favoritesCount">{{ favorites|length if favorites else 0 }}</div>
+        <div class="stat-trend" id="favoritesTrend">
+          {{ '↑' if favorites_this_week > 0 else '↓' }} {{ favorites_this_week }} this week
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRASH -->
+  <div class="stat-card stat-red">
+    <div class="stat-left">
+      <div class="stat-icon" style="background:#fee2e2;color:#dc2626;">
+        <i class="fa-solid fa-trash"></i>
+      </div>
+      <div class="stat-info">
+        <div class="stat-title">Trash</div>
+        <div class="stat-value" id="trashCount">{{ trashed_files|length }}</div>
+        <div class="stat-trend" id="trashTrend">
+          {{ '↑' if trash_this_week > 0 else '↓' }} {{ trash_this_week }} this week
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STORAGE -->
+  <div class="stat-card stat-purple">
+    <div class="stat-left">
+      <div class="stat-icon" style="background:#ede9fe;color:#7c3aed;">
+        <i class="fa-solid fa-database"></i>
+      </div>
+      <div class="stat-info">
+        <div class="stat-title">Storage Used</div>
+        <div class="stat-value">{{ total_size_gb }} GB</div>
+        <div class="stat-trend">{{ storage_percent }}% of 2 GB</div>
+      </div>
+    </div>
+
+    <div class="progress-circle"
+         style="background: conic-gradient(#7c3aed {{ storage_percent }}%, #e5e7eb {{ storage_percent }}%)">
+
+      <div class="progress-inner"
+           style="display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#555;">
+        {{ storage_percent }}%
+      </div>
+
+    </div>
+  </div>
+
+</div>
+{% endif %}
+
+
+<div style="margin-top:25px;">
+  <div style="font-size:18px; font-weight:600; color:#202124; margin-bottom:10px;">
+    {% if current_view == "favorites" %}
+      Favorites
+    {% elif current_view == "trash" %}
+      Trash
+    {% else %}
+      Your Files
+    {% endif %}
+  </div>
+
+  {% if files|length == 0 %}
+
+  <div class="empty-state">
+
+    <img src="
+    {% if current_view == 'favorites' %}
+      static/images/favorites.png
+    {% elif current_view == 'trash' %}
+      static/images/trash.png
+    {% else %}
+      static/images/all_files.png
+    {% endif %}
+    " class="empty-illustration">
+
+    <div class="empty-title">
+      {% if current_view == "favorites" %}
+        No favorites yet
+      {% elif current_view == "trash" %}
+        Trash is empty
+      {% else %}
+        No files yet
+      {% endif %}
+    </div>
+
+    <div class="empty-sub">
+      {% if current_view == "favorites" %}
+        Star files to quickly access them here
+      {% elif current_view == "trash" %}
+        Deleted files will appear here before permanent removal
+      {% else %}
+        Upload files to get started with ProGesture
+      {% endif %}
+    </div>
+
+  </div>
+
+  {% else %}
+
+  <div class="grid">
+
+{% for file in files %}
+
+<div class="card" data-date="{{ file.date }}" data-size="{{ file.size_bytes }}">
+
+<div class="preview">
+
+<!-- FILE TYPE BADGE -->
+<div class="file-badge
+  {% if file.name.endswith('.pdf') %} badge-pdf
+  {% elif file.name.endswith('.pptx') or file.name.endswith('.ppt') %} badge-ppt
+  {% elif file.name.endswith('.docx') or file.name.endswith('.doc') %} badge-doc
+  {% elif file.name.endswith('.png') or file.name.endswith('.jpg') or file.name.endswith('.jpeg') %} badge-img
+  {% elif file.name.endswith('.mp4') or file.name.endswith('.mov') or file.name.endswith('.avi') %} badge-video
+  {% else %} badge-other
+  {% endif %}
+">
+  {% if file.name.endswith('.pdf') %}
+    PDF
+  {% elif file.name.endswith('.pptx') or file.name.endswith('.ppt') %}
+    PPT
+  {% elif file.name.endswith('.docx') or file.name.endswith('.doc') %}
+    DOC
+  {% elif file.name.endswith('.png') or file.name.endswith('.jpg') or file.name.endswith('.jpeg') %}
+    IMG
+  {% elif file.name.endswith('.mp4') or file.name.endswith('.mov') or file.name.endswith('.avi') %}
+    VID
+  {% else %}
+    MISC
+  {% endif %}
+</div>
+
+  <!-- FAVORITE STAR -->
+  {% if file.name in favorites %}
+  <div class="favorite-badge">
+    <i class="fa-solid fa-star"></i>
+  </div>
+  {% endif %}
+
+  <img src="
+  {% if file.name.endswith('.pdf') %}
+    {{ preview_thumb(file.name) }}
+  {% elif file.name.endswith('.pptx') or file.name.endswith('.ppt') %}
+    {{ preview_thumb(file.name) }}
+  {% elif file.name.endswith('.docx') or file.name.endswith('.doc') %}
+    {{ preview_thumb(file.name) }}
+  {% elif file.name.endswith('.png') or file.name.endswith('.jpg') or file.name.endswith('.jpeg') %}
+    {{ preview_thumb(file.name) }}
+  {% elif file.name.endswith('.mp4') or file.name.endswith('.mov') or file.name.endswith('.avi') %}
+    {{ preview_thumb(file.name) }}
+  {% else %}
+    static/images/others.png
+  {% endif %}
+  " class="thumb-img">
+</div>
+
+<div class="file-info">
+  <div class="title">{{ file.name }}</div>
+  <div class="file-meta">
+    {{ file.size }} • Modified {{ file.modified }}
+  </div>
+</div>
+
+<div class="actions">
+
+{% if current_view == "trash" %}
+
+<a href="#"
+onclick="restoreFile('{{ url_for('restore_file', filename=file.name) }}', '{{ file.name }}')">
+<i class="fa-solid fa-rotate-left"></i>
+</a>
+
+<a href="#"
+onclick="deleteForever('{{ file.name }}')">
+<i class="fa-solid fa-trash"></i>
+</a>
+
+{% else %}
+
+{% if file.name.endswith('.docx') or file.name.endswith('.doc') %}
+<a href="{{ url_for('open_word', filename=file.name) }}">
+
+{% elif file.name.endswith('.pptx') or file.name.endswith('.ppt') %}
+<a href="{{ url_for('open_ppt', filename=file.name) }}">
+
+{% elif file.name.endswith('.pdf') %}
+<a href="{{ url_for('open_pdf', filename=file.name) }}">
+
+{% elif file.name.endswith('.mp4') or file.name.endswith('.mov') or file.name.endswith('.avi') or file.name.endswith('.mkv') %}
+<a href="{{ url_for('open_video', filename=file.name) }}">
+
+{% else %}
+<a href="{{ url_for('uploaded_file', filename=file.name) }}" target="_blank">
+{% endif %}
+
+<i class="fa-solid fa-up-right-from-square"></i>
+</a>
+
+<a href="#"
+onclick="toggleFavorite(event, '{{ url_for('toggle_favorite', filename=file.name) }}', '{{ file.name }}')">
+<i class="fa-solid fa-star"
+   style="color:
+   {{ 'gold' if current_view == 'favorites'
+      or file.name in favorites
+      else '#5f6368' }}">
+</i>
+</a>
+
+<a href="#"
+onclick="moveToTrash('{{ url_for('move_to_trash', filename=file.name) }}', '{{ file.name }}')">
+<i class="fa-solid fa-trash"></i>
+</a>
+
+{% endif %}
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endif %}
+
+</div>
+</div>
+
+<script>
+
+let deleteFileName = ""
+
+function restoreFile(url, filename){
+
+  fetch(url)
+    .then(() => {
+
+      // remove card instantly
+      document.querySelectorAll(".card").forEach(card => {
+        const title = card.querySelector(".title").textContent;
+        if(title === filename){
+          card.remove();
+        }
+      });
+
+      // update counts
+      const trash = document.getElementById("trashCount");
+      if(trash) trash.textContent = Math.max(0, parseInt(trash.textContent) - 1);
+
+      const total = document.getElementById("totalFilesCount");
+      if(total) total.textContent = parseInt(total.textContent) + 1;
+
+      // show empty state if needed
+      if(document.querySelectorAll(".card").length === 0){
+
+        const grid = document.querySelector(".grid");
+        if(grid) grid.remove();
+
+        const container = document.createElement("div");
+        container.className = "empty-state";
+
+        container.innerHTML = `
+          <img src="static/images/trash.png" class="empty-illustration">
+          <div class="empty-title">Trash is empty</div>
+          <div class="empty-sub">
+            Deleted files will appear here before permanent removal
+          </div>
+        `;
+
+        document.querySelector(".main").appendChild(container);
+      }
+
+      // 🔥 TOAST
+      showToast("File restored", function(){
+        fetch("/move_to_trash/" + encodeURIComponent(filename))
+          .then(() => location.reload());
+      });
+
+    });
+}
+
+function deleteForever(filename){
+
+  confirmDelete(filename);
+
+}
+
+function confirmDelete(filename){
+  deleteFileName = filename
+
+  document.getElementById("deleteModal").style.display = "flex"
+
+  document.getElementById("deleteFileText").innerHTML =
+    `"${filename}" will be deleted forever. This can't be undone.`
+
+  document.getElementById("deleteConfirmBtn").onclick = function(){
+    window.location.href = "/delete_permanently/" + encodeURIComponent(deleteFileName)
+  }
+}
+
+function closeDeleteModal(){
+  document.getElementById("deleteModal").style.display = "none"
+}
+
+/* ===== SORT MENU ===== */
+
+function toggleSortMenu(){
+  const sortMenu = document.getElementById("sortMenu")
+  const filterMenu = document.getElementById("filterMenu")
+
+  filterMenu.style.display = "none"
+
+  sortMenu.style.display =
+    (sortMenu.style.display === "block") ? "none" : "block"
+}
+
+function sortFiles(type){
+
+  const grid=document.querySelector(".grid")
+  const cards=[...grid.querySelectorAll(".card")]
+
+  cards.sort((a,b)=>{
+
+    const nameA=a.querySelector(".title").textContent.toLowerCase()
+    const nameB=b.querySelector(".title").textContent.toLowerCase()
+
+    if(type==="name") return nameA.localeCompare(nameB)
+
+    if(type==="type"){
+      const extA=nameA.split('.').pop()
+      const extB=nameB.split('.').pop()
+      return extA.localeCompare(extB)
+    }
+
+    if(type==="date"){
+      const dateA=parseFloat(a.dataset.date)
+      const dateB=parseFloat(b.dataset.date)
+      return dateB-dateA
+    }
+  })
+
+  cards.forEach(c=>grid.appendChild(c))
+
+  // 🔥 UPDATE LABEL
+  const labelMap = {
+    name: "Name",
+    type: "Type",
+    date: "Recent"
+  }
+  document.getElementById("sortLabel").textContent = labelMap[type]
+
+  document.getElementById("sortMenu").style.display="none"
+}
+
+/* ===== SEARCH ===== */
+
+document.getElementById("fileSearch").addEventListener("keyup",function(){
+
+  const value=this.value.toLowerCase()
+  const cards=document.querySelectorAll(".card")
+
+  cards.forEach(card=>{
+
+    const title=card.querySelector(".title").textContent.toLowerCase()
+
+    card.style.display=title.includes(value)?"":"none"
+
+  })
+
+})
+
+function toggleProfileMenu(){
+  const menu = document.getElementById("profileDropdown")
+
+  if(menu.style.display === "flex"){
+    menu.style.opacity = "0"
+    setTimeout(()=> menu.style.display = "none", 150)
+  }else{
+    menu.style.display = "flex"
+    setTimeout(()=> menu.style.opacity = "1", 10)
+  }
+}
+
+/* close when clicking outside */
+window.addEventListener("click", function(e){
+  const wrapper = document.querySelector(".profile-wrapper")
+  if(!wrapper.contains(e.target)){
+    document.getElementById("profileDropdown").style.display = "none"
+  }
+})
+
+function showUploadPopup(filename){
+  const popup = document.getElementById("uploadPopup");
+  document.getElementById("uploadFileName").textContent = filename;
+
+  popup.style.display = "block";
+}
+
+function closeUploadPopup(){
+  document.getElementById("uploadPopup").style.display = "none";
+}
+
+function handleUpload(input){
+
+  if(input.files.length > 0){
+
+    const file = input.files[0];
+    const filename = file.name.toLowerCase();
+
+    // 🔥 GET ICON ELEMENT
+    const icon = document.getElementById("uploadFileIcon");
+
+    // 🔥 RESET CLASSES
+    icon.className = "fa-solid";
+
+    // 🔥 MATCH FILTER ICONS
+    if(filename.endsWith(".pdf")){
+      icon.classList.add("fa-file-lines");
+      icon.style.color = "#e53935"; // red
+    }
+    else if(filename.endsWith(".ppt") || filename.endsWith(".pptx")){
+      icon.classList.add("fa-file-powerpoint");
+      icon.style.color = "#fb8c00"; // orange
+    }
+    else if(filename.endsWith(".doc") || filename.endsWith(".docx")){
+      icon.classList.add("fa-file-word");
+      icon.style.color = "#1e88e5"; // blue
+    }
+    else if(filename.match(/\.(png|jpg|jpeg|gif|webp)$/)){
+      icon.classList.add("fa-image");
+      icon.style.color = "#43a047"; // green
+    }
+    else if(filename.match(/\.(mp4|mov|avi|mkv)$/)){
+      icon.classList.add("fa-video");
+      icon.style.color = "#8e24aa"; // purple
+    }
+    else{
+      icon.classList.add("fa-file");
+      icon.style.color = "#757575"; // gray
+    }
+
+    // Show popup
+    showUploadPopup(file.name);
+
+    setTimeout(()=>{
+      input.form.submit();
+    }, 500);
+  }
+}
+
+/* ===== FILTER MENU ===== */
+
+function toggleFilterMenu(){
+  const filterMenu = document.getElementById("filterMenu")
+  const sortMenu = document.getElementById("sortMenu")
+
+  sortMenu.style.display = "none"
+
+  filterMenu.style.display =
+    (filterMenu.style.display === "block") ? "none" : "block"
+}
+
+/* ===== ADVANCED FILTER SYSTEM ===== */
+
+let activeFilters = []
+
+const filterMenuItems = document.querySelectorAll(".filter-item")
+
+filterMenuItems.forEach(item => {
+
+  item.addEventListener("click", () => {
+
+    const type = item.getAttribute("data-type")
+    const checkbox = item.querySelector("input") || null
+
+    // RESET ALL
+    if(type === "all"){
+      activeFilters = []
+
+      filterMenuItems.forEach(i => {
+        i.classList.remove("active")
+        const cb = i.querySelector("input")
+        if(cb) cb.checked = false
+      })
+
+      updateFilterLabel()
+      applyFilters()
+      return
+    }
+
+    // TOGGLE
+    if(activeFilters.includes(type)){
+      activeFilters = activeFilters.filter(f => f !== type)
+      item.classList.remove("active")
+      if(checkbox) checkbox.checked = false
+    }else{
+      activeFilters.push(type)
+      item.classList.add("active")
+      if(checkbox) checkbox.checked = true
+    }
+
+    updateFilterLabel()
+    applyFilters()
+
+  })
+
+})
+
+/* APPLY FILTERS */
+function applyFilters(){
+
+  const cards = document.querySelectorAll(".card")
+
+  cards.forEach(card => {
+
+    const name = card.querySelector(".title").textContent.toLowerCase()
+
+    // if no filters → show all
+    if(activeFilters.length === 0){
+      card.style.display = ""
+      return
+    }
+
+    let match = false
+
+    activeFilters.forEach(type => {
+
+      if(type === "pdf" && name.endsWith(".pdf")) match = true
+      if(type === "ppt" && (name.endsWith(".ppt") || name.endsWith(".pptx"))) match = true
+      if(type === "doc" && (name.endsWith(".doc") || name.endsWith(".docx"))) match = true
+      if(type === "image" && (name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg"))) match = true
+      if(type === "video" && (name.endsWith(".mp4") || name.endsWith(".mov") || name.endsWith(".avi"))) match = true
+
+    })
+
+    card.style.display = match ? "" : "none"
+
+  })
+}
+
+/* UPDATE LABEL */
+function updateFilterLabel(){
+
+  const label = document.getElementById("filterLabel")
+
+  if(activeFilters.length === 0){
+    label.textContent = "Filter"
+  }else{
+
+    const nameMap = {
+      pdf: "PDF",
+      ppt: "Presentation",
+      doc: "Document",
+      image: "Image",
+      video: "Video"
+    }
+
+    const formatted = activeFilters
+      .map(type => nameMap[type] || type)
+      .join(", ")
+
+    label.textContent = "Filter: " + formatted
+  }
+
+}
+
+function toggleSubmenu(id){
+
+  const all = document.querySelectorAll(".sort-submenu")
+
+  all.forEach(menu=>{
+    if(menu.id !== id){
+      menu.style.display = "none"
+    }
+  })
+
+  const current = document.getElementById(id)
+
+  if(current.style.display === "flex"){
+    current.style.display = "none"
+  }else{
+    current.style.display = "flex"
+
+    // 🔥 adjust position AFTER render
+    setTimeout(()=>{
+      adjustSubmenuPosition(current)
+    }, 10)
+  }
+}
+
+function sortFiles(type){
+
+  const grid=document.querySelector(".grid")
+  const cards=[...grid.querySelectorAll(".card")]
+
+  cards.sort((a,b)=>{
+
+    const nameA=a.querySelector(".title").textContent.toLowerCase()
+    const nameB=b.querySelector(".title").textContent.toLowerCase()
+
+    const dateA=parseFloat(a.dataset.date)
+    const dateB=parseFloat(b.dataset.date)
+
+    switch(type){
+
+      case "name_asc":
+        return nameA.localeCompare(nameB)
+
+      case "name_desc":
+        return nameB.localeCompare(nameA)
+
+      case "date_desc": // newest
+        return dateB - dateA
+
+      case "date_asc": // oldest
+        return dateA - dateB
+
+      case "type":
+        const extA=nameA.split('.').pop()
+        const extB=nameB.split('.').pop()
+        return extA.localeCompare(extB)
+
+      case "size_desc": // largest
+        return parseFloat(b.dataset.size) - parseFloat(a.dataset.size)
+
+      case "size_asc": // smallest
+        return parseFloat(a.dataset.size) - parseFloat(b.dataset.size)
+          }
+
+  })
+
+  cards.forEach(c=>grid.appendChild(c))
+
+  const labelMap = {
+    name_asc: "Name (A to Z)",
+    name_desc: "Name (Z to A)",
+    date_desc: "Date (Newest)",
+    date_asc: "Date (Oldest)",
+    size_desc: "Size (Largest)",
+    size_asc: "Size (Smallest)"
+  }
+
+  document.getElementById("sortLabel").textContent = labelMap[type]
+
+  document.getElementById("sortMenu").style.display="none"
+}
+
+function setActiveSort(element){
+
+  const items = element.parentElement.querySelectorAll("div")
+
+  items.forEach(i => i.classList.remove("active"))
+
+  element.classList.add("active")
+}
+
+function moveToTrash(url, filename){
+
+  fetch(url)
+    .then(() => {
+
+      let removedFromFavorites = false;
+
+      const cards = document.querySelectorAll(".card");
+
+      cards.forEach(card => {
+        const title = card.querySelector(".title").textContent;
+
+        if(title === filename){
+
+          if(card.querySelector(".favorite-badge")){
+            removedFromFavorites = true;
+          }
+
+          card.remove();
+        }
+      });
+
+      // =========================
+      // 🔥 SHOW EMPTY STATE IF NO FILES LEFT
+      // =========================
+
+      const remainingCards = document.querySelectorAll(".card");
+
+      if(remainingCards.length === 0){
+
+        const grid = document.querySelector(".grid");
+
+        if(grid){
+          grid.remove();
+        }
+
+        const container = document.createElement("div");
+        container.className = "empty-state";
+
+        container.innerHTML = `
+          <img src="static/images/all_files.png" class="empty-illustration">
+
+          <div class="empty-title">
+            No files yet
+          </div>
+
+          <div class="empty-sub">
+            Upload files to get started with ProGesture
+          </div>
+        `;
+
+        document.querySelector(".main").appendChild(container);
+      }
+
+      // =========================
+      // 🔥 UPDATE COUNTS
+      // =========================
+
+      // total files --
+      const total = document.getElementById("totalFilesCount");
+      if(total) total.textContent = Math.max(0, parseInt(total.textContent) - 1);
+
+      // trash ++
+      const trash = document.getElementById("trashCount");
+      if(trash) trash.textContent = parseInt(trash.textContent) + 1;
+
+      // favorites -- if needed
+      if(removedFromFavorites){
+        const fav = document.getElementById("favoritesCount");
+        if(fav) fav.textContent = Math.max(0, parseInt(fav.textContent) - 1);
+      }
+
+      // =========================
+      // 🔥 UPDATE TRENDS
+      // =========================
+
+      // FILES ↓
+      const filesTrend = document.getElementById("filesTrend");
+      if(filesTrend){
+        let count = parseInt(filesTrend.textContent.match(/\d+/)) || 0;
+        count = Math.max(0, count - 1);
+
+        filesTrend.textContent = `↓ ${count} this week`;
+        filesTrend.classList.remove("trend-up");
+        filesTrend.classList.add("trend-down");
+      }
+
+      // TRASH ↑
+      const trashTrend = document.getElementById("trashTrend");
+      if(trashTrend){
+        let count = parseInt(trashTrend.textContent.match(/\d+/)) || 0;
+        count++;
+
+        trashTrend.textContent = `↑ ${count} this week`;
+        trashTrend.classList.remove("trend-down", "trend-up");
+        trashTrend.classList.add("trend-trash-up");
+      }
+
+      // =========================
+      // TOAST
+      // =========================
+      showToast("File moved to trash", function(){
+        fetch("/restore/" + encodeURIComponent(filename))
+          .then(() => location.reload());
+      });
+
+    });
+
+}
+
+function toggleFavorite(event, url, filename){
+
+  event.preventDefault();
+
+  const card = event.currentTarget.closest(".card");
+  const icon = event.currentTarget.querySelector("i");
+
+  const isFavorite = icon.style.color === "gold";
+
+  fetch(url)
+    .then(() => {
+
+      if(isFavorite){
+
+        // 🔴 REMOVE FAVORITE
+        icon.style.color = "#5f6368";
+
+        const badge = card.querySelector(".favorite-badge");
+        if(badge) badge.remove();
+
+        // =========================
+        // 🔥 REMOVE CARD IF IN FAVORITES PAGE
+        // =========================
+        const isFavoritesPage = "{{ current_view }}" === "favorites";
+
+        if(isFavoritesPage){
+          card.remove();
+
+          // 🔥 SHOW EMPTY STATE IF NO FILES LEFT
+          const remainingCards = document.querySelectorAll(".card");
+
+          if(remainingCards.length === 0){
+
+            const grid = document.querySelector(".grid");
+            if(grid) grid.remove();
+
+            const container = document.createElement("div");
+            container.className = "empty-state";
+
+            container.innerHTML = `
+              <img src="static/images/favorites.png" class="empty-illustration">
+
+              <div class="empty-title">
+                No favorites yet
+              </div>
+
+              <div class="empty-sub">
+                Star files to quickly access them here
+              </div>
+            `;
+
+            document.querySelector(".main").appendChild(container);
+          }
+        }
+
+        // =========================
+        // 🔥 UPDATE COUNT --
+        // =========================
+        const fav = document.getElementById("favoritesCount");
+        if(fav) fav.textContent = Math.max(0, parseInt(fav.textContent) - 1);
+
+      }else{
+
+        // 🟡 ADD FAVORITE
+        icon.style.color = "gold";
+
+        if(!card.querySelector(".favorite-badge")){
+          const badge = document.createElement("div");
+          badge.className = "favorite-badge";
+          badge.innerHTML = `<i class="fa-solid fa-star"></i>`;
+          card.querySelector(".preview").appendChild(badge);
+        }
+
+        // =========================
+        // 🔥 UPDATE COUNT ++
+        // =========================
+        const fav = document.getElementById("favoritesCount");
+        if(fav) fav.textContent = parseInt(fav.textContent) + 1;
+
+      }
+
+      // =========================
+      // 🔥 UPDATE TREND
+      // =========================
+      const favTrend = document.getElementById("favoritesTrend");
+
+      if(favTrend){
+
+        let count = parseInt(favTrend.textContent.match(/\d+/)) || 0;
+
+        if(isFavorite){
+          count = Math.max(0, count - 1);
+          favTrend.textContent = `↓ ${count} this week`;
+          favTrend.classList.remove("trend-up");
+          favTrend.classList.add("trend-down");
+        }else{
+          count++;
+          favTrend.textContent = `↑ ${count} this week`;
+          favTrend.classList.remove("trend-down");
+          favTrend.classList.add("trend-up");
+        }
+
+      }
+
+      // =========================
+      // 🔥 TOAST
+      // =========================
+      showToast(
+        isFavorite ? "Removed from favorites" : "Added to favorites",
+        function(){
+          fetch(url).then(() => location.reload());
+        }
+      );
+
+    });
+
+}
+
+/* ===== SEARCH HOTKEY ===== */
+
+document.addEventListener("keydown", function(e){
+
+  // Ctrl + K (like modern apps)
+  if (e.ctrlKey && e.key.toLowerCase() === "k") {
+    e.preventDefault();
+    document.getElementById("fileSearch").focus();
+  }
+
+  // Press "/" to focus search (optional)
+  if (e.key === "/" && document.activeElement.tagName !== "INPUT") {
+    e.preventDefault();
+    document.getElementById("fileSearch").focus();
+  }
+
+});
+
+</script>
+<!-- ===== DELETE FOREVER MODAL ===== -->
+
+<div class="delete-modal" id="deleteModal">
+
+  <div class="delete-dialog">
+
+    <div class="delete-title">Delete forever?</div>
+
+    <div class="delete-text" id="deleteFileText">
+      This file will be deleted forever. This can't be undone.
+    </div>
+
+    <div class="delete-actions">
+      <button class="delete-cancel" onclick="closeDeleteModal()">Cancel</button>
+      <button class="delete-confirm" id="deleteConfirmBtn">Delete forever</button>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ================= UPLOAD POPUP ================= -->
+
+<div id="uploadPopup" class="upload-popup">
+
+  <div class="upload-header">
+    <span>Uploading 1 item</span>
+    <div class="upload-actions">
+      <i class="fa-solid fa-chevron-down"></i>
+      <i class="fa-solid fa-xmark" onclick="closeUploadPopup()"></i>
+    </div>
+  </div>
+
+  <div class="upload-body">
+    <div class="upload-status">Starting upload...</div>
+
+    <div class="upload-file">
+      <i id="uploadFileIcon" class="fa-solid fa-file"></i>
+      <span id="uploadFileName" class="upload-filename">filename.docx</span>
+      <div class="loader"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function showToast(message, undoCallback){
+
+  const container = document.getElementById("toast-container");
+
+  // ✅ REMOVE EXISTING TOAST (prevents stacking)
+  container.innerHTML = "";
+
+  const toast = document.createElement("div");
+  toast.className = "toast";
+
+  toast.innerHTML = `
+    <span>${message}</span>
+    <button id="undoBtn">Undo</button>
+    <span class="close">&times;</span>
+  `;
+
+  container.appendChild(toast);
+
+  function removeToast(){
+    toast.style.opacity = "0";
+    setTimeout(()=> toast.remove(), 200);
+  }
+
+  toast.querySelector(".close").onclick = removeToast;
+
+  toast.querySelector("#undoBtn").onclick = function(){
+    if(undoCallback) undoCallback();
+    removeToast();
+  };
+
+  setTimeout(removeToast, 4000);
+}
+  feather.replace();
+</script>
+
+<!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
+</body>
+</html>
