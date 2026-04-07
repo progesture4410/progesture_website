@@ -29,10 +29,10 @@ os.makedirs(THUMB_FOLDER, exist_ok=True)
 # ================================
 # FIREBASE SETUP
 # ================================
-import os
+import json
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-cred = credentials.Certificate(os.path.join(BASE_DIR, "firebase_key.json"))
+firebase_key = json.loads(os.environ["FIREBASE_KEY"])
+cred = credentials.Certificate(firebase_key)
 
 firebase_admin.initialize_app(cred, {
     "storageBucket": "progesture-database.appspot.com"
@@ -1260,7 +1260,6 @@ def time_ago(timestamp):
 # ================================
 # RUN APP
 # ================================
-import os
-
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
