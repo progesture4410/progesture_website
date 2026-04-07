@@ -29,7 +29,10 @@ os.makedirs(THUMB_FOLDER, exist_ok=True)
 # ================================
 # FIREBASE SETUP
 # ================================
-cred = credentials.Certificate("firebase_key.json")
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+cred = credentials.Certificate(os.path.join(BASE_DIR, "firebase_key.json"))
 
 firebase_admin.initialize_app(cred, {
     "storageBucket": "progesture-database.appspot.com"
