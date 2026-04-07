@@ -415,18 +415,25 @@ def signup():
             "password": password
         }
 
-        db.collection("users").document(username).set(user_data)
-
-        # Generate QR
-        qr_folder = os.path.join("static", "qrcodes")
-        os.makedirs(qr_folder, exist_ok=True)
-
-        qr = qrcode.make(f"LOGIN:{username}:{password}")
-        qr_path = os.path.join(qr_folder, f"{username}.png")
-        qr.save(qr_path)
-
-        # send QR to email
-        send_qr_email(email, username, password)
+        try:
+            # Generate QR
+            qr_folder = os.path.join("static", "qrcodes")
+            os.makedirs(qr_folder, exist_ok=True)
+        
+            qr = qrcode.make(f"LOGIN:{username}:{password}")
+            qr_path = os.path.join(qr_folder, f"{username}.png")
+            qr.save(qr_path)
+        
+            # send email FIRST
+            send_qr_email(email, username, password)
+        
+            # ONLY save user if email works
+            db.collection("users").document(username).set(user_data)
+        
+        except Exception as e:
+            flash("Failed to send QR email. Please try again.")
+            print("EMAIL FAIL:", e)
+            return redirect(url_for("signup"))
 
         return redirect(url_for("home"))
 
