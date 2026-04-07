@@ -29,9 +29,13 @@ os.makedirs(THUMB_FOLDER, exist_ok=True)
 # ================================
 # FIREBASE SETUP
 # ================================
-# TEMPORARY DISABLE FIREBASE FOR TEST
-db = None
-print("Firebase disabled for testing")
+cred = credentials.Certificate("firebase_key.json")
+
+firebase_admin.initialize_app(cred, {
+    "storageBucket": "progesture-database.appspot.com"
+})
+
+db = firestore.client()
 
 
 # ================================
