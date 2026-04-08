@@ -1132,15 +1132,19 @@ def send_qr_email(receiver_email, username, password):
 
         message.attachment = attachment
 
-        sg = SendGridAPIClient(os.environ.get("SENDGRID_API_KEY"))
-        sg.send(message)
-
-        print("✅ SendGrid email sent")
+        api_key = os.environ.get("SENDGRID_API_KEY")
+        print("API KEY:", api_key)
+        
+        sg = SendGridAPIClient(api_key)
+        response = sg.send(message)
+        
+        print("STATUS CODE:", response.status_code)
+        print("BODY:", response.body)
+        print("HEADERS:", response.headers)
 
     except Exception as e:
-        print("❌ SENDGRID ERROR:", e)
-        raise e
-
+        print("❌ SENDGRID ERROR:", str(e))
+        
 def time_ago(timestamp):
     now = datetime.now()
     diff = now - datetime.fromtimestamp(timestamp)
