@@ -428,13 +428,16 @@ def signup():
         # ALWAYS save user first
         db.collection("users").document(username).set(user_data)
         
-        # Try sending email (safe)
-        try:
-            send_qr_email(email, username, password)
-        except Exception as e:
-            print("EMAIL ERROR:", e)
-
-        return redirect(url_for("home"))
+       # ❌ REMOVE email sending completely
+        # try:
+        #     send_qr_email(email, username, password)
+        # except Exception as e:
+        #     print("EMAIL ERROR:", e)
+        
+        # ✅ SHOW QR PAGE INSTEAD
+        qr_url = url_for("static", filename=f"qrcodes/{username}.png")
+        
+        return render_template("show_qr.html", qr_url=qr_url, username=username)
 
     return render_template("signup.html")
 
