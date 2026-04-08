@@ -6,7 +6,9 @@ import qrcode
 import smtplib
 from email.message import EmailMessage
 from datetime import datetime
-
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail, Attachment, FileContent, FileName, FileType, Disposition
+import base64
 from PIL import Image
 from pdf2image import convert_from_path
 import cv2
@@ -1098,52 +1100,49 @@ def profile():
         full_name=full_name
     )
 
-def send_qr_email(receiver_email, username, password):
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail, Attachment, FileContent, FileName, FileType, Disposition
+import base64
 
+def send_qr_email(receiver_email, username, password):
     try:
         qr_path = os.path.join("static", "qrcodes", f"{username}.png")
 
-        sender_email = os.environ.get("EMAIL_USER")
-        sender_password = os.environ.get("EMAIL_PASS")
-        
-        print("EMAIL_USER:", sender_email)
-        print("EMAIL_PASS exists:", bool(sender_password))
+        message = Mail(
+            from_email="progesture4410@gmail.com",
+            to_emails=receiver_email,
+            subject="Your ProGesture QR Login Code",
+            html_content=f"""
+            <strong>Hello {username},</strong><br><br>
+            Username: {username}<br>
+            Password: {password}<br><br>
+            Your QR code is attached.<br><br>
+            - ProGesture
+            """
+        )
 
-        msg = EmailMessage()
-        msg["Subject"] = "Your ProGesture QR Login Code"
-        msg["From"] = sender_email
-        msg["To"] = receiver_email
-
-        msg.set_content(f"""
-Hello {username},
-
-Your ProGesture account details:
-
-Username: {username}
-Password: {password}
-
-QR code is attached.
-
-- ProGesture
-""")
-
+        # Attach QR
         with open(qr_path, "rb") as f:
-            msg.add_attachment(
-                f.read(),
-                maintype="image",
-                subtype="png",
-                filename=f"{username}_qr.png"
-            )
+            data = f.read()
+            encoded = base64.b64encode(data).decode()
 
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-            smtp.login(sender_email, sender_password)
-            smtp.send_message(msg)
+        attachment = Attachment(
+            FileContent(encoded),
+            FileName(f"{username}_qr.png"),
+            FileType("image/png"),
+            Disposition("attachment")
+        )
 
-        print("✅ Email sent successfully")
+        message.attachment = attachment
+
+        sg = SendGridAPIClient(os.environ.get("SENDGRID_API_KEY"))
+        sg.send(message)
+
+        print("✅ SendGrid email sent")
 
     except Exception as e:
-        print("❌ EMAIL ERROR:", e)
-        raise e   # 🔥 ADD THIS LINE
+        print("❌ SENDGRID ERROR:", e)
+        raise e
 
 def time_ago(timestamp):
     now = datetime.now()
