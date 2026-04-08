@@ -1102,48 +1102,37 @@ from sendgrid.helpers.mail import Mail, Attachment, FileContent, FileName, FileT
 import base64
 
 def send_qr_email(receiver_email, username, password):
-    try:
-        qr_path = os.path.join("static", "qrcodes", f"{username}.png")
+    print("🚀 FUNCTION STARTED")
 
-        message = Mail(
-            from_email="progesture4410@gmail.com",
-            to_emails=receiver_email,
-            subject="Your ProGesture QR Login Code",
-            html_content=f"""
-            <strong>Hello {username},</strong><br><br>
-            Username: {username}<br>
-            Password: {password}<br><br>
-            Your QR code is attached.<br><br>
-            - ProGesture
-            """
-        )
+    qr_path = os.path.join("static", "qrcodes", f"{username}.png")
 
-        # Attach QR
-        with open(qr_path, "rb") as f:
-            data = f.read()
-            encoded = base64.b64encode(data).decode()
+    with open(qr_path, "rb") as f:
+        data = f.read()
+        encoded = base64.b64encode(data).decode()
 
-        attachment = Attachment(
-            FileContent(encoded),
-            FileName(f"{username}_qr.png"),
-            FileType("image/png"),
-            Disposition("attachment")
-        )
+    message = Mail(
+        from_email="progesture4410@gmail.com",
+        to_emails=receiver_email,
+        subject="Your ProGesture QR Login Code",
+        html_content=f"Hello {username}, your QR is attached."
+    )
 
-        message.attachment = attachment
+    attachment = Attachment(
+        FileContent(encoded),
+        FileName("qr.png"),
+        FileType("image/png"),
+        Disposition("attachment")
+    )
 
-        api_key = os.environ.get("SENDGRID_API_KEY")
-        print("API KEY:", api_key)
-        
-        sg = SendGridAPIClient(api_key)
-        response = sg.send(message)
-        
-        print("STATUS CODE:", response.status_code)
-        print("BODY:", response.body)
-        print("HEADERS:", response.headers)
+    message.attachment = attachment
 
-    except Exception as e:
-        print("❌ SENDGRID ERROR:", str(e))
+    api_key = os.environ.get("SENDGRID_API_KEY")
+    print("API KEY:", api_key)
+
+    sg = SendGridAPIClient(api_key)
+    response = sg.send(message)
+
+    print("STATUS:", response.status_code)
         
 def time_ago(timestamp):
     now = datetime.now()
