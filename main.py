@@ -1143,6 +1143,7 @@ QR code is attached.
 
     except Exception as e:
         print("❌ EMAIL ERROR:", e)
+        raise e   # 🔥 ADD THIS LINE
 
 def time_ago(timestamp):
     now = datetime.now()
