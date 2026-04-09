@@ -1,59 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Your QR Code - ProGesture</title>
-    <style>
-        body {
-            font-family: Arial;
-            text-align: center;
-            background: #e9e9e9;
-            padding-top: 80px;
-        }
+<meta charset="UTF-8">
+<title>Your QR Code - ProGesture</title>
 
-        .box {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            display: inline-block;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        img {
-            width: 250px;
-            margin: 20px 0;
-        }
+<style>
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #e9e9e9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background: #800000;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            margin-top: 15px;
-        }
+/* background effect */
+.cyber-pattern{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  background-color:#e9e9e9;
+  background-image:
+    radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.12) 100%),
+    linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px);
+  background-size:100% 100%,60px 60px,60px 60px;
+}
 
-        .btn:hover {
-            background: #a00000;
-        }
-    </style>
+/* container */
+.container {
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+/* card */
+.card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 30px 25px;
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.08),
+    0 6px 14px rgba(0,0,0,0.06);
+  border: 1px solid rgba(128,0,0,0.12);
+}
+
+/* header */
+.brand-header{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.brand-logo{
+  width:55px;
+}
+
+.brand-text{
+  font-size:26px;
+  font-weight:700;
+  color:#800000;
+}
+
+/* title */
+.title {
+  font-size:20px;
+  font-weight:700;
+  color:#800000;
+  margin-top:10px;
+}
+
+.message {
+  font-size:14px;
+  color:#4b5563;
+  margin-bottom:15px;
+}
+
+/* QR image */
+.qr-img {
+  width: 220px;
+  margin: 15px 0;
+  border-radius: 10px;
+}
+
+/* buttons */
+.btn {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  background: #800000;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.25s ease;
+}
+
+.btn:hover {
+  background: #a00000;
+}
+</style>
 </head>
+
 <body>
 
-<div class="box">
-    <h2>Signup Successful 🎉</h2>
-    <p>Welcome, <b>{{ username }}</b></p>
+<div class="cyber-pattern"></div>
 
-    <p>Scan or save your QR code:</p>
+<div class="container">
 
-    <img src="{{ qr_url }}" alt="QR Code">
+  <div class="card">
 
-    <br>
+    <div class="brand-header">
+      <img src="/static/images/pup_logo.png" class="brand-logo">
+      <span class="brand-text">PROGESTURE</span>
+    </div>
+
+    <div class="title">Signup Successful 🎉</div>
+    <div class="message">Welcome, <b>{{ username }}</b></div>
+
+    <p class="message">Scan or save your QR code:</p>
+
+    <img src="{{ qr_url }}" class="qr-img">
 
     <a href="{{ qr_url }}" download class="btn">Download QR</a>
-    <br>
     <a href="{{ url_for('login') }}" class="btn">Go to Login</a>
+
+  </div>
+
 </div>
 
 </body>
