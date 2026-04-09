@@ -5,19 +5,20 @@
 <title>Your QR Code - ProGesture</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
-  background: #e9e9e9;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background: #e9e9e9;
 }
 
-/* background effect */
+/* ===== BACKGROUND ===== */
 .cyber-pattern{
   position:fixed;
   inset:0;
@@ -30,107 +31,180 @@ body {
   background-size:100% 100%,60px 60px,60px 60px;
 }
 
-/* container */
-.container {
+/* ===== TOP BAR ===== */
+.topbar{
+  position:fixed;
+  inset:0 0 auto 0;
+  height:56px;
+  display:flex;
+  align-items:center;
+  padding:0 20px;
+  z-index:1200;
+}
+
+.btn-back{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 14px;
+  font-size:12px;
+  font-weight:600;
+  border-radius:10px;
+  text-decoration:none;
+  color:#fff;
+  background:linear-gradient(135deg, #800000, #a00000);
+}
+
+/* ===== HEADER OUTSIDE BOX ===== */
+.top-header {
+  position: absolute;
+  top: -120px;
   width: 100%;
-  max-width: 420px;
   text-align: center;
 }
 
-/* card */
-.card {
-  background: #ffffff;
-  border-radius: 24px;
-  padding: 30px 25px;
-  box-shadow:
-    0 20px 40px rgba(0,0,0,0.08),
-    0 6px 14px rgba(0,0,0,0.06);
-  border: 1px solid rgba(128,0,0,0.12);
-}
-
-/* header */
 .brand-header{
   display:flex;
   align-items:center;
   justify-content:center;
   gap:10px;
-  margin-bottom:10px;
 }
 
 .brand-logo{
-  width:55px;
+  width:60px;
 }
 
 .brand-text{
-  font-size:26px;
+  font-size:34px;
   font-weight:700;
   color:#800000;
 }
 
-/* title */
-.title {
-  font-size:20px;
-  font-weight:700;
-  color:#800000;
-  margin-top:10px;
-}
-
-.message {
+.top-message{
   font-size:14px;
   color:#4b5563;
-  margin-bottom:15px;
+  margin-top:6px;
 }
 
-/* QR image */
-.qr-img {
-  width: 220px;
-  margin: 15px 0;
-  border-radius: 10px;
-}
-
-/* buttons */
-.btn {
-  display: block;
+/* ===== CONTAINER ===== */
+.form-container {
+  position: relative;
   width: 100%;
-  margin-top: 10px;
-  padding: 10px;
-  background: #800000;
-  color: white;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 600;
-  transition: 0.25s ease;
+  max-width: 420px;
 }
 
-.btn:hover {
-  background: #a00000;
+/* ===== CARD ===== */
+.form {
+  background:#ffffff;
+  border-radius:24px;
+  padding:25px 30px;
+
+  border:1px solid rgba(128,0,0,0.12);
+  box-shadow:
+    0 30px 60px rgba(0,0,0,0.12),
+    0 10px 25px rgba(0,0,0,0.08);
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  gap:12px;
+}
+
+/* ===== HEADER INSIDE BOX ===== */
+.form-title{
+  font-size:18px;
+  font-weight:700;
+  color:#800000;
+  align-self:flex-start;
+}
+
+/* ===== QR ===== */
+.qr-img{
+  width:220px;
+  margin:10px 0;
+}
+
+/* ===== TEXT ===== */
+.success{
+  font-weight:700;
+  color:#800000;
+}
+
+.message{
+  font-size:14px;
+  color:#4b5563;
+}
+
+/* ===== BUTTONS ===== */
+.submit{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(135deg,#800000,#a00000);
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.submit:hover{
+  transform:translateY(-1px);
+}
+
+.back-login{
+  text-align:center;
+  font-size:13px;
+  font-weight:600;
+  color:#800000;
+  text-decoration:none;
 }
 </style>
 </head>
 
 <body>
 
+<div class="topbar">
+  <a href="/" class="btn-back">
+    <i class="fa-solid fa-arrow-left"></i>
+    Back to Home
+  </a>
+</div>
+
 <div class="cyber-pattern"></div>
 
-<div class="container">
+<div class="form-container">
 
-  <div class="card">
-
+  <!-- OUTSIDE HEADER -->
+  <div class="top-header">
     <div class="brand-header">
       <img src="/static/images/pup_logo.png" class="brand-logo">
       <span class="brand-text">PROGESTURE</span>
     </div>
 
-    <div class="title">Signup Successful 🎉</div>
-    <div class="message">Welcome, <b>{{ username }}</b></div>
+    <p class="top-message">
+      Download your QR Code for faster login.
+    </p>
+  </div>
 
-    <p class="message">Scan or save your QR code:</p>
+  <!-- CARD -->
+  <div class="form">
+
+    <p class="form-title">Save your QR code</p>
 
     <img src="{{ qr_url }}" class="qr-img">
 
-    <a href="{{ qr_url }}" download class="btn">Download QR</a>
-    <a href="{{ url_for('login') }}" class="btn">Go to Login</a>
+    <div class="success">Signup Successful 🎉</div>
+    <div class="message">Welcome, <b>{{ username }}</b></div>
+
+    <a href="{{ qr_url }}" download class="submit">
+      Download QR Code
+    </a>
+
+    <!-- SAME STYLE AS FORGOT PASSWORD SECOND BUTTON -->
+    <a href="{{ url_for('login') }}" class="back-login">
+      ← Back to Login
+    </a>
 
   </div>
 
